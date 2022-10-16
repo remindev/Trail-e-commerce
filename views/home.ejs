@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= appName %> </title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+    <link rel="stylesheet" href="css/home/style.css">
+</head>
+
+<body>
+
+    <!-- control menu for pc -->
+    <div class="contol-panel-pc d-none d-md-flex">
+        <h1>R</h1>
+        <ul class="main-action">
+            <li class="on" title="home page"><img src="res/home.svg" alt=""></li>
+            <li title="cart page"><img src="res/cart.svg" alt=""></li>
+            <li title="orders page"><img src="res/shoping.svg" alt=""></li>
+            <li title="settings page"><img src="res/settings.svg" alt=""></li>
+        </ul>
+    </div>
+
+    <!-- control menu for mobile -->
+    <div class="control-panel-mobile d-md-none ">
+        <ul class="main-action">
+            <li class="on">
+                <div class="img"><img src="res/home.svg" alt=""></div>
+            </li>
+            <li>
+                <div class="img"><img src="res/cart.svg" alt=""></div>
+            </li>
+            <li>
+                <div class="img"><img src="res/shoping.svg" alt=""></div>
+            </li>
+            <li>
+                <div class="img"><img src="res/settings.svg" alt=""></div>
+            </li>
+        </ul>
+    </div>
+
+    <!-- title -->
+    <div class="navigaton-bar">
+        <div class="spacer d-none d-md-flex"></div>
+        <div class="content">
+            <h4> Odio </h4>
+
+            <div class="search-cont-a d-md-none">
+                <img src="res/search.svg" onclick="appMain.searchNav.open()" alt="">
+            </div>
+
+            <div class="middle" id="middle-search-page" >
+
+                <img src="res/back.svg" class="d-md-none" onclick="appMain.searchNav.close()" alt="">
+                <input type="text" placeholder="search" onFocusOut="appMain.searchNav.close()" onfocus="appMain.searchNav.open()">
+                <img src="res/search.svg" alt="">
+
+                <div class="search-suggestions-pc" style="display: none;" id="searchNavSuggestionsPc">
+                    <ul class="suggestons">
+                        <li>result suggestion</li>
+                        <li>result suggestion</li>
+                        <li>result suggestion</li>
+                        <li>result suggestion</li>
+                        <li>result suggestion</li>
+                    </ul>
+                </div>
+
+            </div>
+
+            <div class="user-img">
+                <img src="res/pp.jpg" alt="">
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- search saggestions ph -->
+    <div class="navbar-suggestions" id="navbarSuggestionsPh" style="display: none;">
+        <div class="search-suggestions">
+            <div class="search-cancler" onclick="appMain.searchNav.close()"></div>
+            <ul class="suggestons">
+                <li>result suggestion</li>
+                <li>result suggestion</li>
+                <li>result suggestion</li>
+                <li>result suggestion</li>
+                <li>result suggestion</li>
+
+            </ul>
+        </div>
+    </div>
+
+    <!-- welcome popup home -->
+    <section class="user_welcome_home">
+        <div class="container">
+            <div class="welcome">
+                <h4> Hi, remin t roy</h4>
+                <p>Here are some top catogeries</p>
+                <div class="cont">
+                    <ul class="suggestions">
+                        <li>Home & <br> applainces</li>
+                        <li>Devices</li>
+                        <li>Utilities</li>
+                        <li>Camera</li>
+                        <li>Music</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- selection product listing -->
+    <section class="left-pdal product-listing">
+        <div class="container">
+            <ul class="product-grid">
+
+                <li>
+                    <div><img src="res/pro-1.jpg" alt=""></div>
+                    <div class="info">
+                        <h5>Sandisk 1TB pendrive</h5>
+                        <h6>₹ 2750 </h6>
+                        <button>Open</button>
+                    </div>
+                </li>
+
+                <li>
+                    <div><img src="res/pro-3.webp" alt=""></div>
+                    <div class="info">
+                        <h5>Mac desktop</h5>
+                        <h6>₹ 280820 </h6>
+                        <button>Open</button>
+                    </div>
+                </li>
+
+                <li>
+                    <div><img src="res/pro-4.png" alt=""></div>
+                    <div class="info">
+                        <h5>Mac desktop</h5>
+                        <h6>₹ 280820 </h6>
+                        <button >Open</button>
+                    </div>
+                </li>
+                <li>
+                    <div><img src="res/pro-5.jpg" alt=""></div>
+                    <div>description</div>
+                </li>
+                <li>
+                    <div><img src="res/pro-6.jpg" alt=""></div>
+                    <div>description</div>
+                </li>
+                <li>
+                    <div><img src="res/pro-7.jpg" alt=""></div>
+                    <div>description</div>
+                </li>
+                <li>
+                    <div><img src="res/pro-8.webp" alt=""></div>
+                    <div>description</div>
+                </li>
+                <li>
+                    <div><img src="res/pro-9.webp" alt=""></div>
+                    <div>description</div>
+                </li>
+                <li>
+                    <div><img src="res/pro-10.webp" alt=""></div>
+                    <div>description</div>
+                </li>
+                <li>
+                    <div><img src="res/pro-11.jpg" alt=""></div>
+                    <div>description</div>
+                </li>
+            </ul>  
+        </div>
+    </section>
+
+    <script>
+        let appMain = {
+            searchNav: {
+
+                open: function () {
+
+                    let x = window.matchMedia("(max-width:767px)");
+                   
+                    if(x.matches){
+                        document.getElementById("navbarSuggestionsPh").style.display = 'grid';
+                    } else {
+                        document.getElementById("searchNavSuggestionsPc").style.display = 'grid';
+                    }
+
+                    let input_cont = document.getElementById("middle-search-page");
+                    input_cont.classList.add("on");
+                    input_cont.querySelector("input").focus();
+                },
+                close: function () {
+                    document.getElementById("searchNavSuggestionsPc").style.display = 'none';
+                    document.getElementById("middle-search-page").classList.remove("on");
+                    document.getElementById("navbarSuggestionsPh").style.display = 'none';
+                }
+            }
+        }
+    </script>
+
+
+</body>
+
+</html>

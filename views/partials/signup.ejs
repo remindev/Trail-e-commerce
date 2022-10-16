@@ -1,0 +1,74 @@
+<div class="container">
+
+    <form>
+
+        <h1 class="mt-5">Create Account</h1>
+
+        <div class="errorDisp" style="display: none;">
+            -
+        </div>
+
+        <div class="input-cont">
+            <label for="name">Name <span>*</span></label> <br>
+            <span class="disp">Enter valid name</span>
+            <input type="text" required name="number" placeholder="name">
+        </div>
+
+        <div class="input-cont">
+            <label for="email">Email <span>*</span></label> <br>
+            <span class="disp">Email is not vlid</span>
+            <input type="email" required name="email" placeholder="email">
+        </div>
+
+        <div class="input-cont">
+            <label for="password">Password <span>*</span></label>
+            <span class="disp">Email is not vlid</span>
+            <input type="password" name="password" placeholder="password">
+        </div>
+
+        <div class="input-cont">
+            <label for="confirm">confirm password <span>*</span></label>
+            <span class="disp">Email is not vlid</span>
+            <input type="text" name="confirm" placeholder="confirm" autocomplete="off">
+        </div>
+
+        <div class="action mt-3">
+
+            <button type="button" id="submit_btn" onclick="signup(this)">Submit</button>
+
+            <p><span>have an account ?</span> <b onclick="window.location.href = '/auth/login'">Login</b></p>
+
+        </div>
+
+        <script>
+
+            window.addEventListener('keyup',(e)=>{
+
+                let doc = document.getElementById("submit_btn");
+
+                if(e.keyCode == 13){
+                    signup(doc);
+                };
+
+            });
+
+            function signup(obj) {
+
+                /** @type {Element} */
+                var doc = obj;
+
+                let name = doc.parentElement.parentElement.getElementsByClassName("input-cont")[0].querySelector('input');
+                let email = doc.parentElement.parentElement.getElementsByClassName("input-cont")[1].querySelector('input');
+                let password = doc.parentElement.parentElement.getElementsByClassName("input-cont")[2].querySelector('input');
+                let conform = doc.parentElement.parentElement.getElementsByClassName("input-cont")[3].querySelector('input');
+                let disp = doc.parentElement.parentElement.getElementsByClassName("errorDisp")[0];
+
+                AuthJs.signup(name,email,password,conform,disp);
+
+            }
+
+        </script>
+
+    </form>
+
+</div>

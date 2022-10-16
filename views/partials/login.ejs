@@ -1,0 +1,60 @@
+<div class="container">
+
+    <form>
+
+        <h1 class="mt-5">Login</h1>
+
+        <div class="errorDisp" style="display: none;">
+            -
+        </div>
+
+        <div class="input-cont">
+            <label for="email">Email <span>*</span></label> <br>
+            <span class="disp">Email is not vlid</span>
+            <input type="email" required name="email" placeholder="email">
+        </div>
+
+        <div class="input-cont">
+            <label for="password">Password <span>*</span></label>
+            <span class="disp">Email is not vlid</span>
+            <input type="password" name="password" placeholder="password">
+        </div>
+
+        <div class="action mt-3">
+
+            <button type="button" id="submit_btn" onclick="login(this)">Submit</button>
+
+            <p><span>Not have an account ? </span><b onclick="window.location.href='/auth/signup'">Signup</b></p>
+
+        </div>
+
+        <script>
+
+            window.addEventListener('keyup',(e)=>{
+
+                let doc = document.getElementById("submit_btn");
+
+                if(e.keyCode == 13){
+                    login(doc);
+                };
+
+            });
+
+            function login(obj) {
+
+                /** @type {Element} */
+                var doc = obj;
+
+                let email = doc.parentElement.parentElement.getElementsByClassName("input-cont")[0].querySelector('input');
+                let password = doc.parentElement.parentElement.getElementsByClassName("input-cont")[1].querySelector('input');;
+                let disp = doc.parentElement.parentElement.getElementsByClassName("errorDisp")[0];
+
+                AuthJs.login(email,password,disp);
+
+            }
+
+        </script>
+
+    </form>
+
+</div>

@@ -1,0 +1,216 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500&family=Roboto:wght@400;700&display=swap");
+* {
+  margin: 0;
+  padding: 0;
+  outline: 0;
+}
+
+:root {
+  --bg: rgb(243, 243, 243);
+  --primary: white;
+  --secondary: rgb(243, 243, 243);
+  --theme-a:rgb(231, 142, 40);
+  --theme-b:rgb(255, 172, 78);
+}
+
+body {
+  position: relative;
+  background-color: var(--bg);
+  font-family: "Poppins", sans-serif;
+}
+
+.title-admin {
+  position: fixed;
+  left: 0;
+  right: 0;
+  height: 50px;
+  background-color: var(--primary);
+  box-sizing: border-box;
+  padding: 5px 15px;
+  display: flex;
+  align-items: center;
+}
+.title-admin h5 {
+  padding: 0;
+  margin: 0;
+  text-transform: capitalize;
+}
+.title-admin button {
+  padding: 5px 15px;
+  border: none;
+  background-color: black;
+  color: white;
+  border-radius: 5px;
+  position: absolute;
+  right: 15px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.title-admin button:hover {
+  background-color: gray;
+}
+
+.spacer {
+  width: 100%;
+  position: relative;
+  top: 50px;
+  height: 10px;
+}
+
+.content-selector {
+  width: 100%;
+  margin-top: 100px;
+}
+.content-selector .container {
+  padding: 0;
+}
+.content-selector h2 {
+  text-transform: capitalize;
+}
+.content-selector .action {
+  width: 100%;
+  list-style: none;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding: 0;
+  margin: 0;
+  margin-top: 30px;
+}
+.content-selector .action li {
+  padding: 8px 20px;
+  padding-bottom: 5px;
+  background-color: rgb(209, 209, 209);
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  font-family: "Roboto", sans-serif;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.2s;
+  color: rgb(46, 46, 46);
+  box-shadow: 0 0 25px 5px rgba(0, 0, 0, 0.062);
+}
+.content-selector .action li.on {
+  background-color: white;
+  color: black;
+}
+.content-selector .action li:hover {
+  background-color: rgb(255, 255, 255);
+}
+
+.page-contents {
+  margin: 20px 0 0 0;
+  width: 100%;
+}
+.page-contents .container {
+  background-color: white;
+  border-radius: 5px;
+  padding: 15px 25px;
+  box-sizing: border-box;
+  box-shadow: 0 0 20px 10px rgba(10, 10, 10, 0.041);
+}
+.page-contents .search-cont {
+  width: 100%;
+  margin: 10px 0 20px 0;
+  display: grid;
+  grid-template-columns: auto 100px 100px;
+  gap: 20px;
+}
+.page-contents .search-cont input {
+  width: 100%;
+  border: none;
+  box-sizing: border-box;
+  padding: 8px 15px;
+  border-radius: 5px;
+  background-color: var(--bg);
+}
+.page-contents .search-cont button {
+  border: none;
+  color: white;
+  background-color: rgb(63, 63, 63);
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: small;
+}
+.page-contents table td img {
+  width: 25px;
+  cursor: pointer;
+}
+
+.update-user-form {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.update-user-form .canceler {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(10, 10, 10, 0.295);
+  -webkit-backdrop-filter: blur(2px);
+          backdrop-filter: blur(2px);
+}
+.update-user-form .edit-form {
+  position: relative;
+  display: unset;
+  width: 400px;
+  padding: 20px;
+  background-color: var(--primary);
+  border-radius: 5px;
+  box-shadow: 0 0 25px 10px rgba(0, 0, 0, 0.137);
+}
+.update-user-form .edit-form .disp-error {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 10px 15px;
+  margin-bottom: 10px;
+  background-color: #ffd2d2;
+  border-radius: 5px;
+  font-size: small;
+}
+.update-user-form .edit-form p {
+  font-size: small;
+}
+.update-user-form .edit-form input {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 10px 15px;
+  border: none;
+  background-color: var(--bg);
+  margin: 5px 0 15px 0;
+  border-radius: 5px;
+  font-size: small;
+}
+.update-user-form .edit-form .btn-cont {
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
+}
+.update-user-form .edit-form label {
+  font-size: small;
+  width: 100%;
+}
+.update-user-form .edit-form label .err-disp {
+  float: right;
+  color: #bb3333;
+}
+.update-user-form .edit-form button {
+  border: none;
+  padding: 8px 15px;
+  background-color: rgb(54, 54, 54);
+  color: var(--primary);
+  border-radius: 5px;
+  font-size: small;
+  transition: all 0.2s;
+}
+.update-user-form .edit-form button:hover {
+  background-color: rgb(92, 92, 92);
+}/*# sourceMappingURL=style.css.map */

@@ -1,0 +1,128 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500&family=Roboto:wght@400;700&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    outline: 0;
+}
+
+:root {
+    --primary: white;
+    --secondary: rgb(155, 155, 155);
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    // font-family: 'Roboto', sans-serif;
+}
+
+.container {
+
+    display: flex;
+    justify-content: center;
+
+    form {
+
+        max-width: 400px;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+
+        .errorDisp{
+            width: 100%;
+            box-sizing: border-box;
+            padding: 10px 20px;
+            background-color: #eb8d8d;
+            border-radius: 5px;
+            color: white;
+        }
+
+        .input-cont {
+
+            width: 100%;
+            position: relative;
+
+            label{
+                font-size: small;
+            }
+
+            span{
+                color: rgb(231, 107, 49);
+            }
+
+            span.disp{
+                font-weight: 500;
+                position: absolute;
+                right: 0;
+                top: 5px;
+                font-size: small;
+                color: #d13c3c;
+                text-transform: capitalize;
+                
+                display: none;
+            }
+
+            input {
+                margin-top: 5px;
+                border: none;
+                background-color: var(--secondary);
+                border-radius: 5px;
+                padding: 10px 15px;
+                color: var(--primary);
+                font-size: small;
+                width: 100%;
+            }
+
+
+            input::placeholder {
+                color: white;
+            }
+
+        }
+
+        .action{
+
+            display: grid;
+            align-items: center;
+            grid-template-columns: auto auto;
+            gap: 20px;
+            
+            width: 100%;
+
+            button{
+                margin: 0;
+                width: min-content;
+                border:none;
+                background-color: rgb(85, 85, 85);
+                color: white;
+                padding: 8px 25px;
+                border-radius: 5px;
+                font-size: small;
+                cursor: pointer;
+            }
+    
+            p{
+                padding: 0;
+                margin: 0;
+                display: flex;
+                justify-content: end;
+                align-items: center;
+                gap: 10px;
+    
+                b{
+                    cursor: pointer;
+                    background-color: rgb(58, 58, 58);
+                    padding: 5px 8px;
+                    border-radius: 5px;
+                    font-weight: normal;
+                    font-size: small;
+                    color: var(--primary);
+                }
+            }
+
+        }
+
+
+    }
+}
