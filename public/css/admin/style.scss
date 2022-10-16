@@ -72,9 +72,6 @@ body {
     width: 100%;
     margin-top: 100px;
 
-    .container{
-        padding: 0;
-    }
 
     h2{
         text-transform: capitalize;
@@ -125,11 +122,16 @@ body {
     width: 100%;
     
     .container{
-        background-color: white;
-        border-radius: 5px;
-        padding: 15px 25px;
-        box-sizing: border-box;
-        box-shadow: 0 0 20px 10px rgba(10, 10, 10, 0.041);
+        
+        .contents-in-cont{
+            box-shadow: 0 0 20px 10px rgba(10, 10, 10, 0.041);
+            box-sizing: border-box;
+            border-radius: 5px;
+            padding: 15px 25px;
+            background-color: white;
+            width: 100%;
+        }
+
     }
 
     .search-cont{
@@ -172,12 +174,14 @@ body {
 
 }
 
+
+
 .update-user-form{
     position: fixed;
+    height: 100%;
+    width: 100%;
     top: 0;
     left: 0;
-    right: 0;
-    bottom: 0;
 
     display: flex;
     align-items: center;
@@ -250,9 +254,19 @@ body {
         }
 
 
+        button.d{
+            width: 100%;
+        }
+        button.d.s{
+            background-color: #7a4141;
+        }
+        button.d.s:hover{
+            background-color: #794848;
+        }
+
         button{
             border: none;
-            padding: 8px 15px;
+            padding: 10px 15px;
             background-color: rgb(54, 54, 54);
             color: var(--primary);
             border-radius: 5px;

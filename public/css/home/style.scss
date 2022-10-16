@@ -172,8 +172,6 @@ body {
 .navigaton-bar {
     width: 100%;
     background-color: var(--primary);
-    --height-totle-search: 50px;
-    height: var(--height-totle-search);
     position: fixed;
     top: 0;
     box-sizing: border-box;
@@ -191,10 +189,9 @@ body {
         height: 100%;
         display: grid;
         align-items: center;
-        box-sizing: border-box;
-        grid-template-columns: auto auto 40px;
+        grid-template-columns: auto auto 60px;
         gap: 20px;
-        padding: 10px;
+        padding: 5px 20px;
         width: 100%;
         position: relative;
 
@@ -309,10 +306,26 @@ body {
 
         .user-img {
 
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
             img {
                 width: 35px;
                 border-radius: 50%;
                 cursor: pointer;
+            };
+
+            button{
+                margin: 0;
+                padding: 8px 15px;
+                box-sizing: border-box;
+                border: none;
+                border-radius: 5px;
+                background-color: rgb(53, 53, 53);
+                color: white;
+                cursor: pointer;
+                font-size: small;
             }
 
         }

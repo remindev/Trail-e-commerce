@@ -1,10 +1,10 @@
 <div class="search-cont">
-    <input type="text" placeholder="search user">
+    <input type="text" onkeyup="search(this)" placeholder="search user">
     <button>search</button>
     <button onclick="addUser()">+ Add user</button>
 </div>
 
-<table class="table">
+<table class="table" id="tabe_of_users">
     <tr>
         <th class="col">#</th>
         <th class="col">Name</th>
@@ -51,18 +51,36 @@
             </td>
             <td><img src="/res/edit-user.svg" alt="Edit" onclick="updatePopUp(1,this,true)" id="btn_of_the_button_UID"
                     identifier="<%=user.UID%>"></td>
-            <td><img src="/res/delete.svg" alt=""></td>
+            <td><img onclick="deletePopup(1,this.parentElement.parentElement)" src="/res/delete.svg" alt=""></td>
         </tr>
 
         <% }); %>
 
 </table>
 
+<div class="update-user-form" id="delete_user_cont" style="display: none;">
+
+    <div class="canceler" id="cancler_popup_delete" onclick="deletePopup()"></div>
+
+    <div class="edit-form" id="delete_user_form">
+        <h6>Delete - <span id="conform_email_deleteA">Email</span></h6>
+        <p><b>Note : </b> After deletion account cannot be recovered !</p>
+        <label for="conform">Please type <b id="conform_email_deleteB">email of user</b> to confirm.</label>
+        <div class="disp-error mt-2" id="disp_error_delete" style="display: none;">
+            -
+        </div>
+        <input type="text" autocomplete="off" name="conform" id="input_delete_comform"
+            placeholder="Type here to confirm">
+        <button class="d" onclick="deletePopup()">Cancel</button>
+        <button class="d s mt-3" id="delete_btn_submint" disabled onclick="deleteUser()">continue and delete this
+            account</button>
+    </div>
+
+</div>
+
 <div class="update-user-form" id="update_user_field_main_cont" style="display: none;">
 
-    <div class="canceler" id="cancler_popup" onclick="updatePopUp()">
-
-    </div>
+    <div class="canceler" id="cancler_popup" onclick="updatePopUp()"></div>
 
     <div class="edit-form">
         <h6><span>Edit -</span> <span id="user_data_edit_conformation">123@abc.com</span></h6>
@@ -77,12 +95,12 @@
 
             <div>
                 <label for="name">Name <span class="err-disp"></span></label>
-                <input type="text" name="name" autocomplete="off" placeholder="name" value="">
+                <input autocomplete="off" type="text" name="name" autocomplete="off" placeholder="name" value="">
             </div>
 
             <div>
                 <label for="emali">Email <span class="err-disp"></span></label>
-                <input type="text" autocomplete="off" placeholder="email" value="">
+                <input autocomplete="off" type="text" autocomplete="off" placeholder="email" value="">
             </div>
 
             <div>
@@ -92,16 +110,16 @@
 
             <div>
                 <label for="password">password <span class="err-disp"></span></label>
-                <input type="password" autocomplete="off" placeholder="new password" value="">
+                <input autocomplete="off" type="password" autocomplete="off" placeholder="new password" value="">
             </div>
 
             <div>
                 <label for="password">conform <span class="err-disp"></span></label>
-                <input type="password" autocomplete="off" placeholder="conform new passord" value="">
+                <input autocomplete="off" type="password" autocomplete="off" placeholder="conform new passord" value="">
             </div>
 
             <div class="hidden">
-                <input type="text" hidden id="hidden_input">
+                <input autocomplete="off" type="text" hidden id="hidden_input">
             </div>
 
             <div class="btn-cont">
@@ -116,6 +134,181 @@
 </div>
 
 <script>
+
+    function search(input) {
+        // Declare variables
+        var filter, table, tr, td, i, txtValue;
+        filter = input.value.toUpperCase();
+        table = document.getElementById("tabe_of_users");
+        tr = table.getElementsByTagName("tr");
+
+        // Loop through all table rows, and hide those who don't match the search query
+        for (i = 0; i < tr.length; i++) {
+
+            td = tr[i].getElementsByTagName("td")[2];
+
+            if (td) {
+
+                txtValue = td.textContent || td.innerText;
+
+                if (txtValue.toUpperCase().indexOf(filter) > -1) {
+
+                    tr[i].style.display = "";
+
+                } else {
+
+                    tr[i].style.display = "none";
+
+                };
+
+            };
+        };
+    };
+
+</script>
+
+<script>
+
+    var deleteIDHolder = '';
+
+    let confirmInput = document.getElementById("input_delete_comform");
+
+    confirmInput.addEventListener('keyup', (e) => {
+
+        let refA = document.getElementById('conform_email_deleteA');
+
+        let btn = document.getElementById('delete_btn_submint');
+
+        if (refA.innerText == e.target.value) {
+
+            btn.removeAttribute("disabled");
+
+            btn.style.backgroundColor = '#b43131';
+
+        } else {
+
+            btn.setAttribute('disabled', '');
+
+            btn.style.backgroundColor = '#7a4141';
+
+        };
+
+    });
+
+    function deletePopup(action, doc) {
+
+        let delete_cancler = document.getElementById("cancler_popup_delete");
+
+        let mainDoc = document.getElementById("delete_user_cont");
+
+        let refA = document.getElementById('conform_email_deleteA');
+
+        let refB = document.getElementById('conform_email_deleteB');
+
+        let confirmInput = document.getElementById("input_delete_comform");
+
+        let allBtns = mainDoc.querySelectorAll('button');
+
+        let disp_err = document.getElementById("disp_error_delete");
+
+        disp_err.style.display = 'none';
+
+        allBtns[1].setAttribute("disabled",'');
+
+        if (action) {
+
+            mainDoc.style.display = 'grid';
+
+            /**
+             * @type {NodeList} fields
+             */
+            let fields = doc.querySelectorAll("td");
+
+            let email = fields[2];
+
+            let UID = fields[4];
+
+            refA.innerText = email.innerText;
+
+            refB.innerText = email.innerText;
+
+            deleteIDHolder = UID.innerText;
+
+            confirmInput.value = '';
+
+
+        } else {
+
+            mainDoc.style.display = 'none';
+
+        };
+
+    };
+
+    async function deleteUser() {
+
+        let delete_cancler = document.getElementById("cancler_popup_delete");
+
+        let mainDoc = document.getElementById("delete_user_cont");
+
+        let refA = document.getElementById('conform_email_deleteA');
+
+        let refB = document.getElementById('conform_email_deleteB');
+
+        let confirmInput = document.getElementById("input_delete_comform");
+
+        let allBtns = mainDoc.querySelectorAll('button');
+
+        let disp_err = document.getElementById("disp_error_delete");
+
+
+        function dispErr(message, good) {
+
+            let doc = disp_err;
+
+            if (message) {
+
+                doc.style.backgroundColor = good ? "#d2ffd2" : "#ffd2d2";
+                doc.textContent = message;
+
+                doc.style.display = 'flex';
+
+            } else {
+
+                doc.style.display = 'none';
+
+            };
+
+        };
+
+        if (refA.innerText == confirmInput.value) {
+
+            let res = await fetch('/admin/deleteUser', {
+                method: "POST",
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ UID: deleteIDHolder })
+            });
+
+            let data = await res.json();
+
+            if (data.status == 'error') {
+
+                dispErr(data.message);
+
+            } else {
+
+                dispErr(data.message, true);
+
+                delete_cancler.setAttribute("onclick", 'window.location.reload()');
+                allBtns[0].setAttribute("onclick", 'window.location.reload()');
+
+            };
+
+        }
+
+    };
 
     function updatePopUp(action, btn, add) {
 
@@ -188,7 +381,7 @@
 
         buttons[1].innerText = 'Update';
 
-        buttons[1].setAttribute('onclick', "updateUser(this)"); // TODO:WATCHOUT
+        buttons[1].setAttribute('onclick', "updateUser(this)");
 
     };
 
@@ -198,12 +391,15 @@
 
         let formDoc = document.getElementById("update_user_fields");
 
+        var error_disp = formDoc.querySelector("div.disp-error");
+
         let fieldsListFrom = formDoc.querySelectorAll("input");
 
         let buttons = formDoc.querySelectorAll("button");
 
+        error_disp.style.display = 'none';        
 
-        let name = fieldsListFrom[0]
+        let name = fieldsListFrom[0];
 
         let email = fieldsListFrom[1];
 
@@ -212,6 +408,27 @@
         let password = fieldsListFrom[3];
 
         let conform = fieldsListFrom[4];
+
+        name.setAttribute('placeholder','Name');
+        
+        name.value = '';
+
+        email.setAttribute('placeholder','Email');
+
+        email.value = '';
+
+        role.setAttribute('placeholder','U or A');
+
+        role.value = '';
+        
+        password.setAttribute('placeholder','Password');
+
+        password.value = '';
+
+        name.setAttribute('placeholder','Conform');
+
+        conform.value = '';
+
 
         let good = true;
 
@@ -241,7 +458,7 @@
         let conform = fieldsListFrom[4];
 
         let good = true;
-        
+
 
         dispState(100);
 
@@ -325,9 +542,9 @@
 
                     default: {
 
-                        for(let i=0; i<5; i++){
+                        for (let i = 0; i < 5; i++) {
 
-                            dispState((i+1),"");
+                            dispState((i + 1), "");
 
                         };
 
@@ -396,44 +613,44 @@
         };
 
         if (good) {
-            
+
             try {
 
                 dispErr('Updating...', true);
 
-                let res = await fetch('/admin/addUser',{
-                    headers:{
+                let res = await fetch('/admin/addUser', {
+                    headers: {
                         'Content-Type': 'application/json'
                     },
-                    method:"POST",
-                    body:JSON.stringify({
-                        email:email.value.toLocaleLowerCase(),
-                        password:password.value,
-                        name:name.value,
-                        role:role.value,
+                    method: "POST",
+                    body: JSON.stringify({
+                        email: email.value.toLocaleLowerCase(),
+                        password: password.value,
+                        name: name.value,
+                        role: role.value,
                     })
                 });
 
                 let data = await res.json();
 
-                if(data.status == 'error'){
+                if (data.status == 'error') {
 
                     dispErr(data.message);
-                    
-                }else{
+
+                } else {
 
                     document.getElementById("button_cancel_popup_remiver").setAttribute("onclick", 'window.location.reload()');
                     document.getElementById("cancler_popup").setAttribute("onclick", 'window.location.reload()');
 
-                    dispErr(data.message,true);
+                    dispErr(data.message, true);
 
                 };
 
-                
+
             } catch (error) {
-              
+
                 dispErr('Error creating user');
-                
+
             };
 
         };

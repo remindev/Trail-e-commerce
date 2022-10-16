@@ -61,12 +61,12 @@ export async function initializeAuth(req, res, next) {
 
         let userDATA = await DB.user.findOne({ UID: req.session.user.UID }, { password: 0 });
 
-        
-        if(userDATA){
+
+        if (userDATA) {
             req.user = userDATA;
-        }else{
+        } else {
             req.session.destroy();
-            
+
             req.isLoggedIn = false; // user not logged in
         };
 
@@ -79,9 +79,6 @@ export async function initializeAuth(req, res, next) {
     next(); // moves to next function 
 
 };
-
-
-
 
 /*
    This function is resposible to redirect user to the login page when the user is not logged in
@@ -471,7 +468,7 @@ export function createUser(request) {
     let email = request.body.email.trim();
     let password = request.body.password.trim();
     let name = request.body.name.trim();
-    let role = request.body.role?request.body.role.trim():null;
+    let role = request.body.role ? request.body.role.trim() : null;
 
     return new Promise(async (resolve, reject) => {
 
@@ -483,7 +480,7 @@ export function createUser(request) {
                     name: name,
                     email: email,
                     password: password,
-                    role:role
+                    role: role
                 },
                 {
                     emailRequired: 1,
@@ -498,7 +495,7 @@ export function createUser(request) {
                 password: output.password,
                 name: output.name,
                 UID: output.UID,
-                'admin.isAdmin':output.role=='A'?true:false
+                'admin.isAdmin': output.role == 'A' ? true : false
             });
 
             userData.save();
@@ -643,7 +640,7 @@ export async function updateUser(request) {
 
                     let updating = await DB.user.updateOne({ UID: output.UID }, { $set: { 'admin.isAdmin': role } });
 
-                } else if(output.role != null){
+                } else if (output.role != null) {
                     reject("You cannot change your own role");
                 };
 
@@ -663,6 +660,61 @@ export async function updateUser(request) {
         } catch (error) {
             reject(error);
         };
+
+    });
+
+};
+
+
+/**
+ * 
+ * @param {Request} request 
+ * @returns promise with user data
+ */
+export async function deleteUser(request) {
+
+    let UID = request.body.UID;
+
+    return new Promise( async (resolve, reject) => {
+
+
+        try {
+
+            let output = await validatior(
+                {
+                    UID: UID
+                },
+                {
+                    UIDRequired: 1
+                },
+                'deleteUser'
+            );
+
+            if (output.UID != null) {
+
+                if (request.session.user.UID == output.UID) {
+
+                    reject('You cannot delete your own account');
+                    
+
+                } else {
+
+                    let deleted = await DB.user.deleteOne({UID:output.UID});
+
+                    resolve('User sucessfully deleted');
+
+                };
+
+            } else {
+
+                reject('Invalid user ID');
+
+            };
+
+        } catch (error) {
+            console.error(error);
+        };
+
 
     });
 

@@ -12,7 +12,7 @@ app.get('/', async (req, res) => {
 
     let page = req.query.pg;
 
-    if(!page){
+    if (!page) {
         res.redirect('/admin?pg=users')
         return 0;
     }
@@ -27,8 +27,8 @@ app.get('/', async (req, res) => {
                 appName: process.appConfig.name,
                 users: [],
                 user: req.user,
-                currentPage:'users',
-                layout:'admin'
+                currentPage: 'users',
+                layout: 'admin'
             };
 
             for (let i = 0; i < userData.length; i++) {
@@ -62,42 +62,42 @@ app.get('/', async (req, res) => {
 
         };
 
-        case 'products':{
+        case 'products': {
 
             let data = {
                 appName: process.appConfig.name,
                 users: [],
                 user: req.user,
-                currentPage:'products',
-                layout:'admin'
+                currentPage: 'products',
+                layout: 'admin'
             };
 
-            res.render('admin/products',data);
+            res.render('admin/products', data);
 
             break;
 
         }
 
-        case 'settings':{
+        case 'settings': {
 
             let data = {
                 appName: process.appConfig.name,
                 users: [],
                 user: req.user,
-                currentPage:'settings',
-                layout:'admin'
+                currentPage: 'settings',
+                layout: 'admin'
 
             };
 
-            res.render('admin/settings',data);
+            res.render('admin/settings', data);
 
             break;
 
         }
 
-        default:{
+        default: {
 
-            res.render('errMessage',{message:'Oops, page not avilabe ! 404'});
+            res.render('errMessage', { message: 'Oops, page not avilabe ! 404' });
 
         }
 
@@ -114,29 +114,47 @@ app.post('/updateUser', async (req, res) => {
         let user = await auth.updateUser(req);
 
         res.send({
-            status:'good',
-            message:user
+            status: 'good',
+            message: user
         })
-        
+
     } catch (error) {
 
-        res.send({status:'error',message:error});
+        res.send({ status: 'error', message: error });
 
     };
 
 
 });
 
-app.post('/addUser',async (req,res)=>{
+app.post('/addUser', async (req, res) => {
 
     try {
-        
+
         let user = await auth.createUser(req);
 
-        res.send({status:"sucess",message:"User created sucessfully"});
+        res.send({ status: "sucess", message: "User created sucessfully" });
+
+    } catch (error) {
+
+        res.send({ status: "error", message: error });
+
+    };
+
+});
+
+app.post('/deleteUser', async (req, res) => {
+
+    try {
+      
+        let data = await auth.deleteUser(req);
+
+        res.send({status:'sucess',message:data});
         
     } catch (error) {
-        res.send({status:"error", message:error});
+
+        res.send({status:'error',message:error});
+
     };
 
 });

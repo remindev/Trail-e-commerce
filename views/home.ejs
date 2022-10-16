@@ -74,7 +74,13 @@
             </div>
 
             <div class="user-img">
-                <img onclick="logout()" src="res/pp.jpg" alt="">
+
+                <% if(isLoggedIn){ %>
+                    <button onclick="logout()">Logout</button>
+                <% }else{ %>
+                    <button onclick="window.location.href='/auth/login'">Login</button>
+                <% }; %>
+
             </div>
 
         </div>
@@ -100,7 +106,8 @@
     <section class="user_welcome_home">
         <div class="container">
             <div class="welcome">
-                <h4> Hi, remin t roy</h4>
+                <h4> Hi, <%= user.name %>
+                </h4>
                 <p>Here are some top catogeries</p>
                 <div class="cont">
                     <ul class="suggestions">
