@@ -1,7 +1,7 @@
 <div class="search-cont">
     <input type="text" placeholder="search user">
     <button>search</button>
-    <button>+ Add user</button>
+    <button onclick="addUser()">+ Add user</button>
 </div>
 
 <table class="table">
@@ -15,7 +15,8 @@
         <th class="col">LastLogin</th>
         <th class="col">Order</th>
         <th class="col">Cart</th>
-        <th class="col">Edit</th>
+        <th class="col">-</th>
+        <th class="col">-</th>
     </tr>
 
     <% users.forEach((user,index,array)=>{ %>
@@ -48,7 +49,9 @@
             <td>
                 <%= user.cart.length %>
             </td>
-            <td><img src="/res/edit-user.svg" alt="Edit" onclick="updatePopUp(1,this)" id="btn_of_the_button_UID" identifier="<%=user.UID%>"></td>
+            <td><img src="/res/edit-user.svg" alt="Edit" onclick="updatePopUp(1,this,true)" id="btn_of_the_button_UID"
+                    identifier="<%=user.UID%>"></td>
+            <td><img src="/res/delete.svg" alt=""></td>
         </tr>
 
         <% }); %>
@@ -57,12 +60,12 @@
 
 <div class="update-user-form" id="update_user_field_main_cont" style="display: none;">
 
-    <div class="canceler" onclick="updatePopUp()">
+    <div class="canceler" id="cancler_popup" onclick="updatePopUp()">
 
     </div>
 
     <div class="edit-form">
-        <h6>Edit - <span id="user_data_edit_conformation">123@abc.com</span></h6>
+        <h6><span>Edit -</span> <span id="user_data_edit_conformation">123@abc.com</span></h6>
 
         <p><b>Note :</b>&nbsp; You can leave feld empty if there is no updation</p>
 
@@ -88,17 +91,21 @@
             </div>
 
             <div>
-                <label for="passord">password <span class="err-disp"></span></label>
-                <input type="text" autocomplete="off" placeholder="new password" value="">
+                <label for="password">password <span class="err-disp"></span></label>
+                <input type="password" autocomplete="off" placeholder="new password" value="">
             </div>
 
             <div>
-                <label for="passord">conform <span class="err-disp"></span></label>
-                <input type="text" autocomplete="off" placeholder="conform new passord" value="">
+                <label for="password">conform <span class="err-disp"></span></label>
+                <input type="password" autocomplete="off" placeholder="conform new passord" value="">
+            </div>
+
+            <div class="hidden">
+                <input type="text" hidden id="hidden_input">
             </div>
 
             <div class="btn-cont">
-                <button onclick="updatePopUp()">Cancel</button>
+                <button id="button_cancel_popup_remiver" onclick="updatePopUp()">Cancel</button>
                 <button onclick="updateUser(this)">Update</button>
             </div>
 
@@ -110,7 +117,7 @@
 
 <script>
 
-    function updatePopUp(action, btn) {
+    function updatePopUp(action, btn, add) {
 
         let doc = document.getElementById("update_user_field_main_cont");
 
@@ -118,7 +125,11 @@
 
             doc.style.display = 'flex';
 
-            initlal(btn);
+            if (add) {
+
+                initlal(btn);
+
+            };
 
         } else {
             doc.style.display = 'none';
@@ -132,6 +143,8 @@
 
         let inputFieldsTo = docTo.querySelectorAll("input");
 
+        let errElement = docTo.querySelector("div.disp-error");
+
         let UID = button.getAttribute('identifier');
 
         /** @type {Document} */
@@ -140,14 +153,20 @@
         let fieldsListFrom = docFrom.querySelectorAll("td");
 
 
+        let buttons = docTo.querySelectorAll("button");
+
+
         let nameFrom = fieldsListFrom[1].innerText.trim();
 
         let emailFrom = fieldsListFrom[2].innerText.trim();
 
         let isAdminFrom = fieldsListFrom[3].innerText.trim();
 
+        errElement.style.display = 'none';
+
         document.getElementById("user_data_edit_conformation").textContent = emailFrom;
 
+        document.getElementById("hidden_input").value = UID;
 
         inputFieldsTo[0].setAttribute("placeholder", nameFrom);
 
@@ -165,12 +184,268 @@
 
         inputFieldsTo[4].value = '';
 
+
+
+        buttons[1].innerText = 'Update';
+
+        buttons[1].setAttribute('onclick', "updateUser(this)"); // TODO:WATCHOUT
+
     };
 
-    async function updateUser(button) {
+    function addUser() {
+
+        updatePopUp(1);
+
+        let formDoc = document.getElementById("update_user_fields");
+
+        let fieldsListFrom = formDoc.querySelectorAll("input");
+
+        let buttons = formDoc.querySelectorAll("button");
+
+
+        let name = fieldsListFrom[0]
+
+        let email = fieldsListFrom[1];
+
+        let role = fieldsListFrom[2];
+
+        let password = fieldsListFrom[3];
+
+        let conform = fieldsListFrom[4];
+
+        let good = true;
+
+        document.getElementById("user_data_edit_conformation").textContent = 'Add user';
+
+        buttons[1].innerText = 'Add User';
+
+        buttons[1].setAttribute('onclick', "addUserFinal(this)");
+
+    };
+
+    async function addUserFinal() {
+
+        let formDoc = document.getElementById("update_user_fields");
+
+        let fieldsListFrom = formDoc.querySelectorAll("input");
+
+
+        let name = fieldsListFrom[0]
+
+        let email = fieldsListFrom[1];
+
+        let role = fieldsListFrom[2];
+
+        let password = fieldsListFrom[3];
+
+        let conform = fieldsListFrom[4];
+
+        let good = true;
+        
+
+        dispState(100);
+
+        dispErr();
+
+
+        function dispErr(message, good) {
+
+            var doc = formDoc.querySelector("div.disp-error");
+
+            if (message) {
+
+                doc.style.backgroundColor = good ? "#d2ffd2" : "#ffd2d2";
+                doc.textContent = message;
+
+                doc.style.display = 'flex';
+
+            } else {
+
+                doc.style.display = 'none';
+
+            };
+
+        };
+
+        function dispState(fieldNo, message) {
+
+            if (fieldNo) {
+
+                switch (fieldNo) {
+
+                    case 1: {
+
+                        let err = name.parentElement.querySelector("span.err-disp");
+
+                        err.textContent = message;
+
+                        break;
+
+                    };
+
+                    case 2: {
+
+                        let err = email.parentElement.querySelector("span.err-disp");
+
+                        err.textContent = message;
+
+                        break;
+
+                    };
+
+                    case 3: {
+
+                        let err = role.parentElement.querySelector("span.err-disp");
+
+                        err.textContent = message;
+
+                        break;
+
+                    };
+
+                    case 4: {
+
+                        let err = password.parentElement.querySelector("span.err-disp");
+
+                        err.textContent = message;
+
+                        break;
+
+                    };
+
+                    case 5: {
+
+                        let err = conform.parentElement.querySelector("span.err-disp");
+
+                        err.textContent = message;
+
+                        break;
+
+                    };
+
+                    default: {
+
+                        for(let i=0; i<5; i++){
+
+                            dispState((i+1),"");
+
+                        };
+
+                        break;
+
+                    };
+
+                };
+
+            };
+
+        };
+
+
+        if (name.value.trim().length < 2) {
+
+            dispState(1, "Enter a valid name");
+
+            good = false;
+
+        };
+
+        if (!email.value.trim().toLocaleLowerCase().match(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/)) {
+
+            dispState(2, 'Enter a valid email');
+
+            good = false;
+
+        };
+
+
+
+        if (role.value.trim() == 'A' || role.value.trim() == 'U') {
+
+            // good
+
+        } else {
+
+            dispState(3, 'Enter a valid Role');
+
+            good = false;
+
+        };
+
+
+        if (password.value.trim().length < 6) {
+
+            dispState(4, 'Enter a valid password');
+
+            good = false;
+
+        } else if (password.value.trim().length != 0) {
+
+            if (conform.value.trim() == password.value.trim()) {
+
+
+
+            } else {
+
+                dispState(5, "Conform password dosn't match");
+
+                good = false;
+
+            }
+
+        };
+
+        if (good) {
+            
+            try {
+
+                dispErr('Updating...', true);
+
+                let res = await fetch('/admin/addUser',{
+                    headers:{
+                        'Content-Type': 'application/json'
+                    },
+                    method:"POST",
+                    body:JSON.stringify({
+                        email:email.value.toLocaleLowerCase(),
+                        password:password.value,
+                        name:name.value,
+                        role:role.value,
+                    })
+                });
+
+                let data = await res.json();
+
+                if(data.status == 'error'){
+
+                    dispErr(data.message);
+                    
+                }else{
+
+                    document.getElementById("button_cancel_popup_remiver").setAttribute("onclick", 'window.location.reload()');
+                    document.getElementById("cancler_popup").setAttribute("onclick", 'window.location.reload()');
+
+                    dispErr(data.message,true);
+
+                };
+
+                
+            } catch (error) {
+              
+                dispErr('Error creating user');
+                
+            };
+
+        };
+
+    }
+
+    async function updateUser(button, addUser) {
 
         /** @type {Document} */
         let docFrom = button.parentElement.parentElement;
+
+        let button_cancel = button.parentElement.querySelectorAll('button')[0];
 
         let fieldsListFrom = docFrom.querySelectorAll("input");
 
@@ -184,13 +459,15 @@
 
         let role = fieldsListFrom[2];
 
-        let passord = fieldsListFrom[3];
+        let password = fieldsListFrom[3];
 
         let conform = fieldsListFrom[4];
 
-        let UID = document.getElementById("btn_of_the_button_UID").getAttribute('identifier');
+        let UID = document.getElementById("hidden_input").value;
 
         dispState(100);
+
+        dispErr();
 
         function dispErr(message, good) {
 
@@ -249,7 +526,7 @@
 
                     case 4: {
 
-                        let err = passord.parentElement.querySelector("span.err-disp");
+                        let err = password.parentElement.querySelector("span.err-disp");
 
                         err.textContent = message;
 
@@ -271,7 +548,9 @@
 
                         fieldsListFrom.forEach((element, index, array) => {
 
-                            element.parentElement.querySelector("span.err-disp").innerHTML = '';
+                            if (index == array.length) {
+                                element.parentElement.querySelector("span.err-disp").innerHTML = '';
+                            };
 
                         });
 
@@ -303,8 +582,7 @@
 
         if (role.value.trim().length != 0) {
 
-            if (role.value.trim() == "A" || role.value.trim() == 'U') {
-
+            if (role.value.trim() == 'A' || role.value.trim() == 'U') {
 
                 // good
 
@@ -318,15 +596,15 @@
 
         };
 
-        if (passord.value.trim().length != 0 & passord.value.trim().length < 6) {
+        if (password.value.trim().length != 0 & password.value.trim().length < 6) {
 
             dispState(4, 'Enter a valid password');
 
             good = false;
 
-        } else if (passord.value.trim().length != 0) {
+        } else if (password.value.trim().length != 0) {
 
-            if (conform.value.trim() == passord.value.trim()) {
+            if (conform.value.trim() == password.value.trim()) {
 
 
 
@@ -343,6 +621,7 @@
         if (good) {
 
             dispState(100);
+            dispErr('Updating...', true);
 
             try {
 
@@ -353,11 +632,11 @@
                     method: "POST",
                     body: JSON.stringify({
 
-                        UID:UID.length==25?UID:null,
-                        name:name.value.length>0?name.value.trim():null,
-                        email:email.value.length>0?email.value.trim():null,
-                        role:role.value == 'A' || role.value == 'U'?role.vlaue.trim():null,
-                        passord:passord.value.length>=6 && conform.value == passord.value?passord.value.trim():null
+                        UID: UID.length == 25 ? UID : null,
+                        name: name.value.length > 0 ? name.value.trim() : null,
+                        email: email.value.length > 0 ? email.value.trim() : null,
+                        role: role.value.trim() == 'A' || role.value.trim() == 'U' ? role.value.trim() : null,
+                        password: password.value.trim().length >= 6 && conform.value.trim() == password.value.trim() ? password.value.trim() : null
 
                     })
                 });
@@ -371,6 +650,9 @@
                 } else {
 
                     dispErr(data.message, true);
+
+                    button_cancel.setAttribute("onclick", 'window.location.reload()');
+                    document.getElementById("cancler_popup").setAttribute("onclick", 'window.location.reload()');
 
                 };
 

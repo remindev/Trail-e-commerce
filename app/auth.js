@@ -59,7 +59,16 @@ export async function initializeAuth(req, res, next) {
 
         req.isLoggedIn = true; // user is logged in 
 
-        req.user = await DB.user.findOne({ UID: req.session.user.UID }, { password: 0 });
+        let userDATA = await DB.user.findOne({ UID: req.session.user.UID }, { password: 0 });
+
+        
+        if(userDATA){
+            req.user = userDATA;
+        }else{
+            req.session.destroy();
+            
+            req.isLoggedIn = false; // user not logged in
+        };
 
     } else {
 
@@ -200,7 +209,7 @@ export function mustLogoutApi(req, res, next) {
  */
 export function validatior(data, requiredIn, typeOfValidation) {
 
-    let email = data.email ? data.email : [];
+    let email = data.email ? data.email.toLocaleLowerCase() : [];
 
     let password = data.password ? data.password : [];
 
@@ -245,7 +254,7 @@ export function validatior(data, requiredIn, typeOfValidation) {
 
                 if (email.match(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/)) {
 
-                    if (typeOfValidation == 'signup') {
+                    if (typeOfValidation == 'signup' || typeOfValidation == 'updateUser') {
 
                         try {
 
@@ -253,7 +262,7 @@ export function validatior(data, requiredIn, typeOfValidation) {
 
                             if (emailIn.length > 0) {
 
-                                reject('User aready exists');
+                                reject('Email aready exists');
 
                                 return 0;
 
@@ -452,8 +461,6 @@ export function validatior(data, requiredIn, typeOfValidation) {
 
 };
 
-
-
 /**
  * 
  * @param {Request} request 
@@ -464,6 +471,7 @@ export function createUser(request) {
     let email = request.body.email.trim();
     let password = request.body.password.trim();
     let name = request.body.name.trim();
+    let role = request.body.role?request.body.role.trim():null;
 
     return new Promise(async (resolve, reject) => {
 
@@ -474,7 +482,8 @@ export function createUser(request) {
                 {
                     name: name,
                     email: email,
-                    password: password
+                    password: password,
+                    role:role
                 },
                 {
                     emailRequired: 1,
@@ -488,7 +497,8 @@ export function createUser(request) {
                 email: output.email,
                 password: output.password,
                 name: output.name,
-                UID: output.UID
+                UID: output.UID,
+                'admin.isAdmin':output.role=='A'?true:false
             });
 
             userData.save();
@@ -583,42 +593,77 @@ export async function loginUser(request) {
  * @param {Request} request 
  * @returns promise with user data
  */
-export async function updateUser(request){
+export async function updateUser(request) {
 
-    let email = request.body.email!=null?request.body.email:'';
+    let email = request.body.email != null ? request.body.email.trim() : '';
 
-    let name = request.body.name!=null?request.body.name:'';
+    let name = request.body.name != null ? request.body.name.trim() : '';
 
-    return new Promise((resolve,reject)=>{
+    let role = request.body.role != null ? request.body.role.trim() : '';
 
-        
+    let password = request.body.password != null ? request.body.password.trim() : '';
+
+    let UID = request.body.UID != null ? request.body.UID.trim() : '';
+
+    return new Promise(async (resolve, reject) => {
+
+        try {
+
+            let output = await validatior(
+                {
+                    email: email,
+                    name: name,
+                    role: role,
+                    password: password,
+                    UID: UID
+                },
+                {
+                    UIDRequired: 1,
+                },
+                'updateUser'
+            );
+
+            try {
+
+                if (output.email != null) {
+
+                    let updating = await DB.user.updateOne({ UID: output.UID }, { $set: { email: output.email } });
+
+                };
+
+                if (output.name != null) {
+
+                    let updating = await DB.user.updateOne({ UID: output.UID }, { $set: { name: output.name } });
+
+                };
+
+                if (UID != request.session.user.UID && output.role != null) {
+
+                    let role = output.role == 'A' ? true : false;
+
+                    let updating = await DB.user.updateOne({ UID: output.UID }, { $set: { 'admin.isAdmin': role } });
+
+                } else if(output.role != null){
+                    reject("You cannot change your own role");
+                };
+
+                if (output.password != null) {
+
+                    let updating = await DB.user.updateOne({ UID: output.UID }, { $set: { password: output.password } });
+
+                };
+
+                resolve("User data updated sucessfull");
+
+
+            } catch (error) {
+                console.error(error);
+            };
+
+        } catch (error) {
+            reject(error);
+        };
 
     });
 
 };
-
-
-async function test() {
-
-    try {
-
-        let output = await validatior({});
-
-        console.log(output);
-
-    } catch (error) {
-        console.error(error);
-    }
-
-};
-
-// test();
-
-function createAdmin() {
-
-    let email = 'admin@remin.dev';
-
-    let password = 'password text';
-
-
-}

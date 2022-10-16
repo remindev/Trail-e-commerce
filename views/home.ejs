@@ -5,7 +5,9 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><%= appName %> </title>
+    <title>
+        <%= appName %>
+    </title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
     <link rel="stylesheet" href="css/home/style.css">
@@ -52,10 +54,11 @@
                 <img src="res/search.svg" onclick="appMain.searchNav.open()" alt="">
             </div>
 
-            <div class="middle" id="middle-search-page" >
+            <div class="middle" id="middle-search-page">
 
                 <img src="res/back.svg" class="d-md-none" onclick="appMain.searchNav.close()" alt="">
-                <input type="text" placeholder="search" onFocusOut="appMain.searchNav.close()" onfocus="appMain.searchNav.open()">
+                <input type="text" placeholder="search" onFocusOut="appMain.searchNav.close()"
+                    onfocus="appMain.searchNav.open()">
                 <img src="res/search.svg" alt="">
 
                 <div class="search-suggestions-pc" style="display: none;" id="searchNavSuggestionsPc">
@@ -71,7 +74,7 @@
             </div>
 
             <div class="user-img">
-                <img src="res/pp.jpg" alt="">
+                <img onclick="logout()" src="res/pp.jpg" alt="">
             </div>
 
         </div>
@@ -140,7 +143,7 @@
                     <div class="info">
                         <h5>Mac desktop</h5>
                         <h6>₹ 280820 </h6>
-                        <button >Open</button>
+                        <button>Open</button>
                     </div>
                 </li>
                 <li>
@@ -171,7 +174,7 @@
                     <div><img src="res/pro-11.jpg" alt=""></div>
                     <div>description</div>
                 </li>
-            </ul>  
+            </ul>
         </div>
     </section>
 
@@ -182,8 +185,8 @@
                 open: function () {
 
                     let x = window.matchMedia("(max-width:767px)");
-                   
-                    if(x.matches){
+
+                    if (x.matches) {
                         document.getElementById("navbarSuggestionsPh").style.display = 'grid';
                     } else {
                         document.getElementById("searchNavSuggestionsPc").style.display = 'grid';
@@ -200,6 +203,26 @@
                 }
             }
         }
+    </script>
+
+    <script>
+
+        function logout() {
+
+            fetch('/logout', {
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                method: "POST",
+                body: JSON.stringify({ message: 'log me out' })
+            }).then((res) => {
+                window.location.reload();
+            }).catch((err) => {
+                console.error(err);
+            });
+
+        };
+
     </script>
 
 

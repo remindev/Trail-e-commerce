@@ -33,11 +33,11 @@ app.get('/', async (req, res) => {
 
             for (let i = 0; i < userData.length; i++) {
 
-                let dd = userData[i].creationTime.getDay();
+                let dd = userData[i].creationTime.getDate();
                 let mm = userData[i].creationTime.getMonth() + 1;
                 let yyyy = userData[i].creationTime.getFullYear();
 
-                let ddu = userData[i].lastLoginTime.getDay();
+                let ddu = userData[i].lastLoginTime.getDate();
                 let mmu = userData[i].lastLoginTime.getMonth() + 1;
                 let yyyyu = userData[i].lastLoginTime.getFullYear();
 
@@ -115,17 +115,29 @@ app.post('/updateUser', async (req, res) => {
 
         res.send({
             status:'good',
-            message:"user data updated sucessfully"
+            message:user
         })
         
     } catch (error) {
-        
-        console.error(error);
 
         res.send({status:'error',message:error});
 
     };
 
+
+});
+
+app.post('/addUser',async (req,res)=>{
+
+    try {
+        
+        let user = await auth.createUser(req);
+
+        res.send({status:"sucess",message:"User created sucessfully"});
+        
+    } catch (error) {
+        res.send({status:"error", message:error});
+    };
 
 });
 

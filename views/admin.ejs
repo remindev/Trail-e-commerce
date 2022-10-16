@@ -17,7 +17,7 @@
     <!-- main title -->
     <div class="title-admin">
         <h5>Admin Dashboard</h5>
-        <button>Logout</button>
+        <button onclick="logout()">Logout</button>
     </div>
 
     <!-- dummy spacer to give margin top -->
@@ -45,6 +45,27 @@
             <%- body %> 
             
         </div>
+
+        <script>
+
+            function logout(){
+
+                fetch('/logout',{
+                    headers:{
+                        'Content-Type': 'application/json'
+                    },
+                    method:"POST",
+                    body:JSON.stringify({message:'log me out'})
+                }).then((res)=>{
+                    window.location.reload();
+                }).catch((err)=>{
+                    console.error(err);
+                });
+
+            };
+
+        </script>
+
     </section>
 
 

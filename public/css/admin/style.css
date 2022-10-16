@@ -134,7 +134,7 @@ body {
   font-size: small;
 }
 .page-contents table td img {
-  width: 25px;
+  height: 15px;
   cursor: pointer;
 }
 
