@@ -3,23 +3,23 @@
     <div class="container">
         <div class="form-container">
 
-            <h3>Create product</h3>
+            <h3>Update product</h3>
 
             <div class="list-pd mt-2">
                 <label for="name">Product title <span></span> </label>
-                <input type="text" autocomplete="off" id="title_input" name="name" placeholder="product title">
+                <input type="text" autocomplete="off" id="title_input" name="name" placeholder="product title" value="<%= product.title %> ">
             </div>
 
             <div class="list-pd-2">
 
                 <div class="list-pd">
                     <label for="name">Price <span></span> </label>
-                    <input type="text" autocomplete="off" id="price_input" name="name" placeholder="₹">
+                    <input type="text" autocomplete="off" id="price_input" name="name" placeholder="₹" value="<%= product.price %> ">
                 </div>
 
                 <div class="list-pd">
                     <label for="name">Stock <span></span> </label>
-                    <input type="text" autocomplete="off" id="stock_input" name="name" placeholder="How much ?">
+                    <input type="text" autocomplete="off" id="stock_input" name="name" placeholder="How much ?" value="<%= product.stock %> ">
                 </div>
 
             </div>
@@ -28,12 +28,12 @@
 
                 <div class="list-pd">
                     <label for="name">Category <span></span> </label>
-                    <input type="text" autocomplete="off" id="category_input" name="name" placeholder="Ex. electonics">
+                    <input type="text" autocomplete="off" id="category_input" name="name" placeholder="Ex. electonics" value="<%= product.category %> ">
                 </div>
 
                 <div class="list-pd">
                     <label for="name">Offer <span></span> </label>
-                    <input type="text" autocomplete="off" id="offer_input" name="name" placeholder="In %">
+                    <input type="text" autocomplete="off" id="offer_input" name="name" placeholder="In %" value="<%= product.offer %> ">
                 </div>
 
             </div>
@@ -41,14 +41,14 @@
             <div class="list-pd">
                 <label for="description">Product description <span></span> </label>
                 <textarea name="description" autocomplete="off" id="desc_input" cols="30" rows="10"
-                    placeholder="type here"></textarea>
+                    placeholder="type here"><%= product.description %></textarea>
             </div>
 
 
             <div class="img-field">
 
                 <div class="pro-img-d">
-                    <img src="/res/product-thump.jpg" id="image_display_image" alt="">
+                    <img src="/productPictures/<%=product.IID%>.jpg" id="image_display_image" alt="">
                 </div>
 
                 <div class="choose" id="image_selector">

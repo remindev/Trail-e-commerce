@@ -504,10 +504,12 @@ section.left-pdal {
             height: 200px;
             background-color: var(--primary);
             display: grid;
+            box-sizing: border-box;
+            padding: 10px;
 
             grid-template-columns: 200px auto;
             overflow: hidden;
-            border-radius: 15px;
+            border-radius: 5px;
             gap: 20px;
 
             @media screen and (max-width:767px) {
@@ -517,7 +519,7 @@ section.left-pdal {
 
             div {
                 height: 100%;
-                width: 100%;
+                width: calc(100% - 20px);
                 display: flex;
                 align-items: center;
                 justify-content: center;
@@ -525,7 +527,9 @@ section.left-pdal {
 
                 img {
                     width: 100%;
-                }
+                    height: 100%;
+                    object-fit: contain
+                };
 
             }
 
@@ -534,8 +538,16 @@ section.left-pdal {
                 align-items: start;
                 gap: 5px;
 
+                p, h5{
+                    margin-bottom: 0;
+                }
+
+                h6{
+                    margin-top: 5px;
+                }
+
                 button {
-                    padding: 10px 30px;
+                    padding: 8px 30px;
                     color: white;
                     border: none;
                     border-radius: 5px;
@@ -543,6 +555,8 @@ section.left-pdal {
                     background-color: rgb(5, 5, 5);
                     cursor: pointer;
                     transition: all .2s;
+                    font-size: small;
+
                 }
 
                 button:hover {

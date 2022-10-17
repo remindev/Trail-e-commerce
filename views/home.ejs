@@ -62,13 +62,13 @@
                 <img src="res/search.svg" alt="">
 
                 <div class="search-suggestions-pc" style="display: none;" id="searchNavSuggestionsPc">
-                    <ul class="suggestons">
+                    <!-- <ul class="suggestons">
                         <li>result suggestion</li>
                         <li>result suggestion</li>
                         <li>result suggestion</li>
                         <li>result suggestion</li>
                         <li>result suggestion</li>
-                    </ul>
+                    </ul> -->
                 </div>
 
             </div>
@@ -77,9 +77,9 @@
 
                 <% if(isLoggedIn){ %>
                     <button onclick="logout()">Logout</button>
-                <% }else{ %>
-                    <button onclick="window.location.href='/auth/login'">Login</button>
-                <% }; %>
+                    <% }else{ %>
+                        <button onclick="window.location.href='/auth/login'">Login</button>
+                        <% }; %>
 
             </div>
 
@@ -91,14 +91,13 @@
     <div class="navbar-suggestions" id="navbarSuggestionsPh" style="display: none;">
         <div class="search-suggestions">
             <div class="search-cancler" onclick="appMain.searchNav.close()"></div>
-            <ul class="suggestons">
+            <!-- <ul class="suggestons">
                 <li>result suggestion</li>
                 <li>result suggestion</li>
                 <li>result suggestion</li>
                 <li>result suggestion</li>
                 <li>result suggestion</li>
-
-            </ul>
+            </ul> -->
         </div>
     </div>
 
@@ -110,13 +109,13 @@
                 </h4>
                 <p>Here are some top catogeries</p>
                 <div class="cont">
-                    <ul class="suggestions">
+                    <!-- <ul class="suggestions">
                         <li>Home & <br> applainces</li>
                         <li>Devices</li>
                         <li>Utilities</li>
                         <li>Camera</li>
                         <li>Music</li>
-                    </ul>
+                    </ul> -->
                 </div>
             </div>
         </div>
@@ -127,60 +126,23 @@
         <div class="container">
             <ul class="product-grid">
 
-                <li>
-                    <div><img src="res/pro-1.jpg" alt=""></div>
-                    <div class="info">
-                        <h5>Sandisk 1TB pendrive</h5>
-                        <h6>₹ 2750 </h6>
-                        <button>Open</button>
-                    </div>
-                </li>
+                <% products.forEach((product,index,array)=>{ %>
 
-                <li>
-                    <div><img src="res/pro-3.webp" alt=""></div>
-                    <div class="info">
-                        <h5>Mac desktop</h5>
-                        <h6>₹ 280820 </h6>
-                        <button>Open</button>
-                    </div>
-                </li>
+                    <li>
+                        <div><img src="/productPictures/<%=product.IID%>.jpg" alt=""></div>
+                        <div class="info">
+                            <h5>
+                                <%= product.title %>
+                            </h5>
+                            <p style="font-size: small; overflow:hidden; height:20px; box-sizing: border-box; padding-right: 20px;"><%= product.description %> </p>
+                            <h6>₹ <%= product.price %>
+                            </h6>
+                            <button>Open</button>
+                        </div>
+                    </li>
 
-                <li>
-                    <div><img src="res/pro-4.png" alt=""></div>
-                    <div class="info">
-                        <h5>Mac desktop</h5>
-                        <h6>₹ 280820 </h6>
-                        <button>Open</button>
-                    </div>
-                </li>
-                <li>
-                    <div><img src="res/pro-5.jpg" alt=""></div>
-                    <div>description</div>
-                </li>
-                <li>
-                    <div><img src="res/pro-6.jpg" alt=""></div>
-                    <div>description</div>
-                </li>
-                <li>
-                    <div><img src="res/pro-7.jpg" alt=""></div>
-                    <div>description</div>
-                </li>
-                <li>
-                    <div><img src="res/pro-8.webp" alt=""></div>
-                    <div>description</div>
-                </li>
-                <li>
-                    <div><img src="res/pro-9.webp" alt=""></div>
-                    <div>description</div>
-                </li>
-                <li>
-                    <div><img src="res/pro-10.webp" alt=""></div>
-                    <div>description</div>
-                </li>
-                <li>
-                    <div><img src="res/pro-11.jpg" alt=""></div>
-                    <div>description</div>
-                </li>
+                <% }); %>
+
             </ul>
         </div>
     </section>

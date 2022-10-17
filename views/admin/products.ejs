@@ -1,81 +1,62 @@
 <div class="search-cont">
     <input type="text" placeholder="search user">
     <button>search</button>
-    <button>+ Product</button>
+    <button onclick="window.location.href = '/admin?pg=addProducts'">+ Product</button>
 </div>
 
 <table class="table products-table" id="tabe_of_users">
     <tr>
         <th class="col">#</th>
         <th class="col">IMG</th>
-        <th class="col">Name</th>
+        <th class="col">Title</th>
         <th class="col">Description</th>
-        <th class="col">Prize</th>
+        <th class="col">Price</th>
         <th class="col">PID</th>
         <th class="col">Created</th>
         <th class="col">LastSale</th>
         <th class="col">Order</th>
         <th class="col">Stock</th>
-        <th class="col">InCart</th>
         <th class="col">-</th>
         <th class="col">-</th>
     </tr>
 
-    <tr>
-        <td>1</td>
-        <td><img class="img-thump" src="/res/pro-1.jpg" alt=""></td>
-        <td>10TB Sandisk Pendrive</td>
-        <td>Best pendrive ever</td>
-        <td>5600</td>
-        <td>FBsR1gycnhV23TRZbOzBmpf_G</td>
-        <td>01-01-2022</td>
-        <td>09-08-2022</td>
-        <td>500</td>
-        <td>14</td>
-        <td>1280</td>
-        <td><img src="/res/edit-user.svg" alt="Edit" onclick="updatePopUp(1,this,true)" id="btn_of_the_button_UID"
-                identifier="<%=user.UID%>"></td>
-        <td><img onclick="deletePopup(1,this.parentElement.parentElement)" src="/res/delete.svg" alt=""></td>
-    </tr>
-
-    <% users.forEach((user,index,array)=>{ %>
+    <% products.forEach((product,index,array)=>{ %>
 
         <tr>
             <td>
                 <%= index + 1 %>
             </td>
             <td>
-                <%= product.name %>
+                <img class="img-thump" src="/productPictures/<%=product.IID%>.jpg" alt="">
             </td>
             <td>
-                <%= product.email %>
+                <%= product.title %>
             </td>
             <td>
-                <%= product.admin.isAdmin?"A":"U"; %>
+                <%= product.description %>
             </td>
             <td>
-                <%= product.UID %>
+                <%= product.price %>
             </td>
             <td>
-                <%= product.creationTime %>
+                <%= product.PID %>
             </td>
             <td>
-                <%= product.lastLoginTime %>
+                <%= product.createdAt %>
             </td>
             <td>
-                <%= product.orders.length %>
+                <%= product.lastSell %>
             </td>
             <td>
-                <%= product.cart.length %>
+                <%= product.order %>
             </td>
-            <td><img src="/res/edit-user.svg" alt="Edit" onclick="updatePopUp(1,this,true)" id="btn_of_the_button_UID"
-                    identifier="<%=user.UID%>"></td>
-            <td><img onclick="deletePopup(1,this.parentElement.parentElement)" src="/res/delete.svg" alt=""></td>
+            <td>
+                <%= product.stock %>
+            </td>
+            <td><img src="/res/edit-user.svg" alt="Edit" id="btn_of_the_button_PID" onclick="window.location.href='/admin?pg=updateProducts&pid=<%=product.PID%>'"></td>
+            <td><img src="/res/delete.svg" alt=""></td>
         </tr>
 
         <% }); %>
 
 </table>
-
-
-</script>

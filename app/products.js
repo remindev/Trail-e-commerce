@@ -2,6 +2,8 @@ import * as DB from './schema.js';
 
 import { randomId } from './auth.js';
 
+const __dirname = process.cwd(); // initializing current working directory
+
 /**
  * @param {Object} data
  * @param {String} data.title
@@ -11,6 +13,7 @@ import { randomId } from './auth.js';
  * @param {Number} data.stock
  * @param {String} data.category
  * @param {String} data.PID
+ * @param {String} data.IID
  * @param {File} data.files
  * @param {Object} requiredIn
  * @param {Boolean} requiredIn.title
@@ -20,6 +23,7 @@ import { randomId } from './auth.js';
  * @param {Boolean} requiredIn.stock
  * @param {Boolean} requiredIn.category
  * @param {Boolean} requiredIn.PID
+ * @param {Boolean} requiredIn.IID
  * @param {Boolean} requiredIn.files
  * @param {string} typeOfValidation
  */
@@ -42,6 +46,8 @@ export function validatior(data, requiredIn, typeOfValidation) {
 
     let PID = data.PID ? data.PID : [];
 
+    let IID = data.IID ? data.IID : [];
+
 
     let titleRequired = requiredIn.title ? true : false;
 
@@ -59,8 +65,12 @@ export function validatior(data, requiredIn, typeOfValidation) {
 
     let PIDRequired = requiredIn.PID ? true : false;
 
+    let IIDRequired = requiredIn.IID ? true : false;
+
 
     let PID_LENGTH = 20;
+
+    let IID_LENGTH = 20;
 
 
     let output = {
@@ -158,11 +168,11 @@ export function validatior(data, requiredIn, typeOfValidation) {
 
             if (stock.length == 0) {
 
-                reject("Offer required"); return 0;
+                reject("Stock required"); return 0;
 
             } else if (stock < 0) {
 
-                reject("Enter a valid offer"); return 0;
+                reject("Enter a valid Stock"); return 0;
 
             } else {
 
@@ -233,7 +243,40 @@ export function validatior(data, requiredIn, typeOfValidation) {
 
                     output.PID = PID;
 
-                } ;
+                };
+
+            };
+
+        };
+
+        // UID Creation
+        if (IID.length != 0 || IIDRequired) {
+
+            if (typeOfValidation == 'addproduct') {
+
+                do {
+
+                    IID = randomId(IID_LENGTH);
+
+                } while ((await DB.products.find({ IID: IID })).length != 0);
+
+                output.IID = IID;
+
+            } else {
+
+                if (IID.length == 0) {
+
+                    reject("PID Required"); return 0;
+
+                } else if (IID.length != IID_LENGTH) {
+
+                    reject("Invalid PID"); return 0;
+
+                } else {
+
+                    output.IID = IID;
+
+                };
 
             };
 
@@ -255,7 +298,7 @@ export async function createProduct(request) {
 
     let body = JSON.parse(request.body.category);
 
-    let tilte = body.name;
+    let title = body.name;
 
     let price = body.price;
 
@@ -270,39 +313,65 @@ export async function createProduct(request) {
     let files = request.files;
 
 
-    return new Promise(async (resolve,reject)=>{
+    return new Promise(async (resolve, reject) => {
 
         try {
 
             let output = await validatior(
                 {
-                    title:tilte,
-                    price:price,
-                    description:description,
-                    offer:offer,
-                    stock:stock,
-                    category:category,
-                    files:files
+                    title: title,
+                    price: price,
+                    description: description,
+                    offer: offer,
+                    stock: stock,
+                    category: category,
+                    files: files
                 },
                 {
-                    title:true,
-                    price:true,
-                    description:true,
-                    files:true,
-                    PID:true
+                    title: true,
+                    price: true,
+                    description: true,
+                    files: true,
+                    PID: true,
+                    IID:true
                 },
                 'addproduct'
             );
 
-            console.log(output);
-        
+
+            try {
+
+
+                let dataForDB = await DB.products({
+                    title: output.title,
+                    price: output.price,
+                    description: output.description,
+                    offer: output.offer,
+                    stock: output.stock,
+                    cateagory: output.category,
+                    PID: output.PID,
+                    IID: output.IID
+                });
+
+                output.files.files.mv(`${__dirname}/public/productPictures/${output.IID}.jpg`);
+
+                dataForDB.save();
+
+                resolve("created product sucessfully ");
+                
+
+            } catch (error) {
+                console.error(error);
+            };
+
+
         } catch (error) {
-            
+
             reject(error);
-    
+
         };
-    
+
 
     });
-   
+
 }

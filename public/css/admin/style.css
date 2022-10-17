@@ -133,6 +133,9 @@ body {
   cursor: pointer;
   font-size: small;
 }
+.page-contents table {
+  font-size: small;
+}
 .page-contents table td img {
   height: 15px;
   cursor: pointer;
@@ -224,6 +227,9 @@ body {
   background-color: rgb(92, 92, 92);
 }
 
+.products-table tr {
+  font-size: small;
+}
 .products-table tr td img.img-thump {
   height: 50px;
   width: 50px;
@@ -301,7 +307,7 @@ body {
   width: 100%;
   -o-object-fit: scale-down;
      object-fit: scale-down;
-  padding: 10px;
+  padding: 0px;
 }
 .products-add-products-popup .form-container .img-field .choose {
   width: 100%;

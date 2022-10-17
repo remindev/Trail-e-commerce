@@ -168,6 +168,7 @@ body {
     };
 
     table{
+        font-size: small;
         td{
             img{
                 height: 15px;
@@ -290,8 +291,10 @@ body {
 .products-table{
 
     tr{
+        font-size: small;
 
         td{
+
 
             img.img-thump{
                 height: 50px;
@@ -396,7 +399,7 @@ body {
                     height: 100%;
                     width: 100%;
                     object-fit: scale-down;
-                    padding: 10px;
+                    padding: 0px;
                 }
 
             }
