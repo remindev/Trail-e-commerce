@@ -7,12 +7,16 @@
 }
 
 :root {
-    --bg: rgb(243, 243, 243);
+    --bg: #f8f8f8;
     --primary: white;
 
-    --secondary: rgb(243, 243, 243);
-    --theme-a:rgb(231, 142, 40);
-    --theme-b:rgb(255, 172, 78);
+    --secondary: #f3f3f3;
+    --theme-a:#e78e28;
+    --theme-b:#ffac4e;
+
+    --border:#dbdbdb;
+
+    --btn:#3f3f3f;
 }
 
 body {
@@ -45,7 +49,7 @@ body {
     button{
         padding: 5px 15px;
         border: none;
-        background-color: black;
+        background-color: var(--btn);
         color: white;
         border-radius: 5px;
         position: absolute;
@@ -118,7 +122,7 @@ body {
 
 // page-contents
 .page-contents{
-    margin: 20px 0 0 0;
+    margin: 20px 0 50px 0;
     width: 100%;
     
     .container{
@@ -144,7 +148,7 @@ body {
 
         input{
             width: 100%;
-            border: none;
+            border: 1px solid var(--border);
             box-sizing: border-box;
             padding: 8px 15px;
             border-radius: 5px;
@@ -155,7 +159,7 @@ body {
         button{
             border: none;
             color: white;
-            background-color: rgb(63, 63, 63);
+            background-color: var(--btn);
             border-radius: 5px;
             cursor: pointer;
             font-size: small;
@@ -229,7 +233,7 @@ body {
             width: 100%;
             box-sizing: border-box;
             padding: 10px 15px;
-            border: none;
+            border: 1px solid var(--border);
             background-color: var(--bg);
             margin: 5px 0 15px 0; 
             border-radius: 5px;
@@ -267,7 +271,7 @@ body {
         button{
             border: none;
             padding: 10px 15px;
-            background-color: rgb(54, 54, 54);
+            background-color: var(--btn);
             color: var(--primary);
             border-radius: 5px;
             font-size:small;
@@ -276,6 +280,158 @@ body {
 
         button:hover{
             background-color: rgb(92, 92, 92);
+        }
+
+    }
+
+}
+
+// products page styles
+.products-table{
+
+    tr{
+
+        td{
+
+            img.img-thump{
+                height: 50px;
+                width: 50px;
+                object-fit: scale-down;
+            }
+
+        }
+
+    }
+
+
+};
+
+
+
+
+
+.products-add-products-popup{
+
+    position: absolute;
+    top: -50px;
+    padding: 0;
+    box-sizing: border-box;
+    width: 100%;
+    background-color: var(--primary);
+    padding-bottom: 100px;
+
+    .form-container{
+        
+        position: relative;
+
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+        padding: 25px;
+        
+        .list-pd{
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+
+            label{
+                font-size: small;
+
+                span{
+                    float: right;
+                    color: rgb(201, 47, 47);
+                }
+
+            }
+
+            input , textarea{
+
+                width: 100%;
+                box-sizing: border-box;
+                padding: 10px 15px;
+                border: 1px solid rgb(219, 219, 219);
+                background-color: var(--bg);
+                border-radius: 5px;
+                font-size: small;
+
+            }
+
+            textarea{
+                height: 150px;
+                resize: none;
+            }
+
+            
+        }
+
+        .list-pd-2{
+            width: 100%;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        
+        .img-field{
+
+            box-sizing: border-box;
+            padding: 10px;
+
+            width: 100%;
+            height: 150px;
+            border: 1px dashed gray;
+            border-radius: 5px;
+            display: grid;
+            grid-template-columns: 200px 200px;
+            justify-content: space-between;
+            overflow: hidden;
+
+            .pro-img-d{
+
+                width: 100%;
+                height: 100%;
+                overflow: hidden;
+
+                img{
+                    height: 100%;
+                    width: 100%;
+                    object-fit: scale-down;
+                    padding: 10px;
+                }
+
+            }
+
+            .choose{
+                width: 100%;
+                height: 100%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                background-color: var(--bg);
+                border-radius: 5px;
+                cursor: pointer;
+                border: 1px solid var(--border);
+
+            }
+
+        }
+
+        .btn-list{
+
+            width: 100%;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+
+            button{
+                padding: 10px 20px;
+                border: none;
+                background-color: var(--btn);
+                color: white;
+                border-radius: 5px;
+                font-size: small;
+            }
+
         }
 
     }

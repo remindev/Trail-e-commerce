@@ -63,12 +63,31 @@ export let user = db.model('users', userSchema); // exports user schema | db - u
  * products schema
  */
 const product = new mongoose.Schema({
-    name: String,
-    price: Number,
-    date: Date,
-    tags: Array,
-    by: String,
-
+    tilte: {
+        type:String,
+        required:true
+    },
+    price: {
+        type:Number,
+        default:0
+    },
+    createdAt: {
+        type:Date,
+        default:new Date
+    },
+    lastSell:Date,
+    cateagory: String,
+    Stock: {
+        type:Number,
+        default:0
+    },
+    offer:{
+        type:Number,
+        default:0
+    },
+    description:String,
+    img:String,
+    PID:String
 });
 
 export let products = db.model('products', product); // exports games schema | db - projects

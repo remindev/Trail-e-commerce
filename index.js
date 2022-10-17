@@ -10,7 +10,9 @@ import events from 'events'; // importing events
 
 import { log } from 'util'; // importing util folder 
 
-import dotenv from 'dotenv'; //  importing dot env 
+import dotenv from 'dotenv'; //  importing dot env ]
+
+import fileUpload from 'express-fileupload';
 
 
 dotenv.config(); // initializing dotenv
@@ -54,6 +56,8 @@ app.use(session({
         maxAge: 1000 * 60 * 60 * 24 * 10 // 10 days
     }
 }));
+
+app.use(fileUpload());
 
 app.use(Express.json()); // to get data from req body
 
