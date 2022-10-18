@@ -178,7 +178,8 @@ app.get('/', async (req, res) => {
                         user: req.user,
                         currentPage: 'Edit products',
                         layout: 'adminpro',
-                        product:productData[0]
+                        product:productData[0],
+                        PID:PID_URL
                     };
     
                     res.render('admin/updateProducts', data);
@@ -263,6 +264,28 @@ app.post('/addproducts', async (req, res) => {
     try {
 
         let resp = await products.createProduct(req);
+
+        res.send({ status: "good", message: resp });
+
+    } catch (error) {
+
+        console.log(error);
+
+        res.send({ status: "error", message: error });
+
+    };
+
+});
+
+
+app.post('/updateproducts', async (req, res) => {
+
+    try {
+
+        // console.log(req.body)
+
+        let resp = await products.updateProducts(req);
+
 
         res.send({ status: "good", message: resp });
 

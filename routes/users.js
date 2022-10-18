@@ -20,7 +20,7 @@ user.get('/', async (req, res) => {
       appName: process.appConfig.name,
       user: req.user ? req.user : user,
       isLoggedIn: req.isLoggedIn,
-      products:productsDB
+      products: productsDB
     };
 
     res.render('home', data);
@@ -40,7 +40,6 @@ user.post('/logout', (req, res) => {
   res.send({ status: 'sucess', message: 'sucessfully logged out' });
 
 });
-
 
 
 export let RUsers = user;

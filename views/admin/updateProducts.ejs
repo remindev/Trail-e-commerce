@@ -28,7 +28,7 @@
 
                 <div class="list-pd">
                     <label for="name">Category <span></span> </label>
-                    <input type="text" autocomplete="off" id="category_input" name="name" placeholder="Ex. electonics" value="<%= product.category %> ">
+                    <input type="text" autocomplete="off" id="category_input" name="name" placeholder="Ex. electonics" value="<%= product.cateagory%> ">
                 </div>
 
                 <div class="list-pd">
@@ -73,6 +73,8 @@
     </div>
 
 </div>
+
+<% var PID = PID %> 
 
 <script>
 
@@ -266,21 +268,22 @@
 
             if (img_FILE.length != 0) {
 
-                fileUploadFinal({
-                    title: title_input.value.trim(),
-                    price: price_input.value.trim(),
-                    offer: offer_input.value.trim(),
-                    stock: stock_input.value.trim(),
-                    category: category_input.value.trim(),
-                    description: desc_input.value.trim(),
-                    files: img_FILE[0]
-                });
-
+                
             } else {
-
-                image_selector.style.border = '1px solid red';
-
+                
+                image_selector.style.border = '2px solid red';
+                
             };
+
+            fileUploadFinal({
+                title: title_input.value.trim(),
+                price: price_input.value.trim(),
+                offer: offer_input.value.trim(),
+                stock: stock_input.value.trim(),
+                category: category_input.value.trim(),
+                description: desc_input.value.trim(),
+                files: img_FILE[0]
+            });
 
         };
 
@@ -318,7 +321,7 @@
 
             xmlRq.abort();
 
-            xmlRq.open('POST', '/admin/addproducts');
+            xmlRq.open('POST', `/admin/updateproducts?pid=<%=PID%>`);
 
             xmlRq.upload.addEventListener('progress', ({ loaded, total }) => {
 

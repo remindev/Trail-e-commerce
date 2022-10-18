@@ -216,7 +216,7 @@ export function validatior(data, requiredIn, typeOfValidation) {
 
         };
 
-        // UID Creation
+        // PID Creation
         if (PID.length != 0 || PIDRequired) {
 
             if (typeOfValidation == 'addproduct') {
@@ -228,6 +228,20 @@ export function validatior(data, requiredIn, typeOfValidation) {
                 } while ((await DB.products.find({ PID: PID })).length != 0);
 
                 output.PID = PID;
+
+            } else if(typeOfValidation = 'updateproduct'){
+
+                let PID_FORM_DB = await DB.products.find({PID:PID});
+
+                if(PID_FORM_DB.length==0){
+
+                    reject("Invalid PID");
+
+                } else {
+
+                    output.PID = PID;
+
+                };
 
             } else {
 
@@ -333,7 +347,7 @@ export async function createProduct(request) {
                     description: true,
                     files: true,
                     PID: true,
-                    IID:true
+                    IID: true
                 },
                 'addproduct'
             );
@@ -357,8 +371,8 @@ export async function createProduct(request) {
 
                 dataForDB.save();
 
-                resolve("created product sucessfully ");
-                
+                resolve("Created product sucessfully ");
+
 
             } catch (error) {
                 console.error(error);
@@ -374,4 +388,88 @@ export async function createProduct(request) {
 
     });
 
-}
+};
+
+/**
+ * 
+ * @param {Request} request 
+ * @returns promise contains user data
+ */
+export function updateProducts(request) {
+
+    let body = JSON.parse(request.body.category);
+
+    let title = body.name;
+
+    let price = body.price;
+
+    let description = body.description;
+
+    let offer = body.offer;
+
+    let stock = body.stock;
+
+    let category = body.category;
+
+    let files = request.files;
+
+    return new Promise(async (resolve, reject) => {
+
+        let PID = request.query.pid;
+
+        try {
+
+            let output = await validatior(
+                {
+                    title: title,
+                    price: price,
+                    description: description,
+                    offer: offer,
+                    stock: stock,
+                    cateagory: category,
+                    files: files,
+                    PID:PID
+                },
+                {
+                    PID:true
+                },
+                'updateproduct'
+            );
+
+
+            try {
+
+                let dataFromDB = await DB.products.find({PID:output.PID});
+
+                let dataForDB = await DB.products.updateOne({PID:output.PID},{$set:{
+                    price:output.price?output.price:dataFromDB[0].price,
+                    description:output.description?output.description:dataFromDB[0].description,
+                    title:output.title?output.title:dataFromDB[0].title,
+                    offer:output.offer?output.offer:dataFromDB[0].offer,
+                    stock:output.stock?output.stock:dataFromDB[0].stock,
+                    cateagory:output.cateagory?output.cateagory:dataFromDB[0].cateagory
+                }});
+
+                if(output.files != null){
+                    output.files.files.mv(`${__dirname}/public/productPictures/${dataFromDB[0].IID}.jpg`);
+                };
+
+                // dataForDB.save();
+
+                resolve("Updated product sucessfully ");
+
+
+            } catch (error) {
+                console.error(error);
+            };
+
+
+        } catch (error) {
+
+            reject(error);
+
+        };
+
+    });
+
+};
