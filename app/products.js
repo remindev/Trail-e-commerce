@@ -2,6 +2,8 @@ import * as DB from './schema.js';
 
 import { randomId } from './auth.js';
 
+import fs from 'fs';
+
 const __dirname = process.cwd(); // initializing current working directory
 
 /**
@@ -276,6 +278,20 @@ export function validatior(data, requiredIn, typeOfValidation) {
 
                 output.IID = IID;
 
+            } else if(typeOfValidation = 'updateproduct'){
+
+                let IID_FORM_DB = await DB.products.find({IID:IID});
+
+                if(IID_FORM_DB.length==0){
+
+                    reject("Invalid PID");
+
+                } else {
+
+                    output.IID = IID;
+
+                };
+
             } else {
 
                 if (IID.length == 0) {
@@ -362,7 +378,7 @@ export async function createProduct(request) {
                     description: output.description,
                     offer: output.offer,
                     stock: output.stock,
-                    cateagory: output.category,
+                    category: output.category,
                     PID: output.PID,
                     IID: output.IID
                 });
@@ -426,7 +442,7 @@ export function updateProducts(request) {
                     description: description,
                     offer: offer,
                     stock: stock,
-                    cateagory: category,
+                    category: category,
                     files: files,
                     PID:PID
                 },
@@ -447,7 +463,7 @@ export function updateProducts(request) {
                     title:output.title?output.title:dataFromDB[0].title,
                     offer:output.offer?output.offer:dataFromDB[0].offer,
                     stock:output.stock?output.stock:dataFromDB[0].stock,
-                    cateagory:output.cateagory?output.cateagory:dataFromDB[0].cateagory
+                    category:output.category?output.category:dataFromDB[0].category
                 }});
 
                 if(output.files != null){
@@ -471,5 +487,48 @@ export function updateProducts(request) {
         };
 
     });
+
+};
+
+/**
+ * 
+ * @param {Request} request 
+ * @returns promise contains user data
+ */
+export function deleteProduct(request){
+
+  return new Promise(async (resolve,reject)=>{
+
+    let PID = request.query.pid;
+
+    try {
+
+        let output = await validatior(
+            {
+                PID:PID
+            },
+            {
+                PID:true
+            }
+        );
+
+        let product_DB = await DB.products.find({PID:PID});
+
+        let deleted_DB = await DB.products.deleteOne({PID:PID});
+
+        let path = `${__dirname}/public/productPictures/${product_DB[0].IID}.jpg`;
+
+        let fs_Delete = fs.unlink(path,()=>{
+            
+            resolve("Product sucessfully deleted");
+            
+        });
+
+        
+    } catch (error) {
+      reject(error);  
+    };
+
+  });
 
 };

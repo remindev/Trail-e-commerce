@@ -1,7 +1,28 @@
 <div class="search-cont">
-    <input type="text" placeholder="search user">
+    <input type="text" onkeyup="search(this)" placeholder="search user">
     <button>search</button>
     <button onclick="window.location.href = '/admin?pg=addProducts'">+ Product</button>
+</div>
+
+<div class="update-user-form" id="delete_user_cont" style="display: none;">
+
+    <div class="canceler" id="cancler_popup_delete" onclick="deletePopup()"></div>
+
+    <div class="edit-form" id="delete_user_form">
+        <h6>Delete - <span id="conform_email_deleteA">Product</span></h6>
+        <p><b>Note : </b> After deletion product data cannot be recovered</p>
+        <label for="conform">Please type <b id="conform_email_deleteB">delete this product</b> to confirm.</label>
+        <div class="disp-error mt-2" id="disp_error_delete" style="display: none;">
+            -
+        </div>
+        <input type="text" autocomplete="off" name="conform" id="input_delete_comform"
+            placeholder="Type here to confirm">
+        <button class="d" id="delete_cancler_Back_Btn" onclick="deletePopup()">Cancel</button>
+        <button class="d s mt-3" id="delete_btn_submint" disabled onclick="delete_product_Final()">continue and delete
+            this
+            account</button>
+    </div>
+
 </div>
 
 <table class="table products-table" id="tabe_of_users">
@@ -10,6 +31,7 @@
         <th class="col">IMG</th>
         <th class="col">Title</th>
         <th class="col">Description</th>
+        <th class="col">Category</th>
         <th class="col">Price</th>
         <th class="col">PID</th>
         <th class="col">Created</th>
@@ -36,6 +58,9 @@
                 <%= product.description %>
             </td>
             <td>
+                <%= product.category %>
+            </td>
+            <td>
                 <%= product.price %>
             </td>
             <td>
@@ -53,10 +78,164 @@
             <td>
                 <%= product.stock %>
             </td>
-            <td><img src="/res/edit-user.svg" alt="Edit" id="btn_of_the_button_PID" onclick="window.location.href='/admin?pg=updateProducts&pid=<%=product.PID%>'"></td>
-            <td><img src="/res/delete.svg" alt=""></td>
+            <td><img src="/res/edit-user.svg" alt="Edit" id="btn_of_the_button_PID"
+                    onclick="window.location.href='/admin?pg=updateProducts&pid=<%=product.PID%>'"></td>
+            <td><img src="/res/delete.svg" onclick="deletePopup(1,'<%=product.PID%>')" alt=""></td>
         </tr>
 
         <% }); %>
 
 </table>
+
+<script src="https://cdn.jsdelivr.net/npm/fuse.js/dist/fuse.js"></script>
+
+<script>
+
+    let tr = document.getElementById("tabe_of_users").getElementsByTagName('tr');
+
+    let list = [];
+
+    for (let i = 0; i < tr.length; i++) {
+
+        if(i==0){
+            continue;
+        };
+
+        let out = {};
+
+        out.inputA = tr[i].getElementsByTagName('td')[2].innerText;
+        out.inputB = tr[i].getElementsByTagName('td')[3].innerText;
+        out.tr = tr[i];
+
+        // list.push(tr[i].getElementsByTagName('td')[3].innerText);
+
+        list.push(out);
+
+    };
+
+    const options = {
+        includeScore: true,
+        keys: ['inputA', 'inputB']
+    };
+
+    const fuse = new Fuse(list, options);
+
+    function search(input) {
+        // Declare variables
+        var filter;
+
+        filter = input.value;
+
+        const result = fuse.search(filter);
+
+        console.log(result);
+
+        let tr = document.getElementById("tabe_of_users").getElementsByTagName('tr');
+
+        
+
+    };
+
+</script>
+
+<script>
+
+    let input_conform = document.getElementById("input_delete_comform");
+
+    var deletable_PID = '';
+
+    input_conform.addEventListener("keyup", (e) => {
+
+        let refA = 'delete this product';
+
+        let btn = document.getElementById('delete_btn_submint');
+
+        if (refA == e.target.value) {
+
+            btn.removeAttribute("disabled");
+
+            btn.style.backgroundColor = '#b43131';
+
+        } else {
+
+            btn.setAttribute('disabled', '');
+
+            btn.style.backgroundColor = '#7a4141';
+
+        };
+
+    });
+
+    function deletePopup(action, PID) {
+
+        let delete_cancler = document.getElementById("cancler_popup_delete");
+
+        let mainDoc = document.getElementById("delete_user_cont");
+
+        let confirmInput = document.getElementById("input_delete_comform");
+
+        let allBtns = mainDoc.querySelectorAll('button');
+
+        let disp_err = document.getElementById("disp_error_delete");
+
+        disp_err.style.display = 'none';
+
+        allBtns[1].setAttribute("disabled", '');
+
+        allBtns[1].style.backgroundColor = '#7a4141';
+
+        if (action) {
+
+            deletable_PID = PID;
+
+            mainDoc.style.display = 'grid';
+
+            confirmInput.value = '';
+
+        } else {
+
+            mainDoc.style.display = 'none';
+
+        };
+
+    };
+
+    async function delete_product_Final() {
+
+        let disp_err = document.getElementById("disp_error_delete");
+
+        let delete_cancler = document.getElementById("cancler_popup_delete");
+
+        let delete_cancel_btn = document.getElementById("delete_cancler_Back_Btn");
+
+        try {
+
+            disp_err.style.display = 'grid';
+
+            let res = await fetch(`/admin/deleteProduct?pid=${deletable_PID}`, {
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                method: "POST",
+            });
+
+            let data = await res.json();
+
+            disp_err.style.backgroundColor = data.status != 'error' ? "#d2ffd2" : "#ffd2d2";
+
+            disp_err.innerText = data.message;
+
+            delete_cancler.setAttribute("onclick", data.status != `error` ? 'window.location.reload()' : '');
+
+            delete_cancel_btn.setAttribute("onclick", data.status != `error` ? 'window.location.reload()' : '');
+
+        } catch (error) {
+
+            console.error(error);
+
+        };
+
+    };
+
+
+</script>

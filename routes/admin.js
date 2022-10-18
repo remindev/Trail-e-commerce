@@ -110,7 +110,8 @@ app.get('/', async (req, res) => {
                     stock: productDB_DATA[i].stock,
                     price: productDB_DATA[i].price,
                     createdAt: `${dd}/${mm}/${yyyy}`,
-                    lastSell: `${ddu}/${mmu}/${yyyyu}`
+                    lastSell: `${ddu}/${mmu}/${yyyyu}`,
+                    category:productDB_DATA[i].category
                 };
 
                 data.products.push(dataOFProducts);
@@ -282,8 +283,6 @@ app.post('/updateproducts', async (req, res) => {
 
     try {
 
-        // console.log(req.body)
-
         let resp = await products.updateProducts(req);
 
 
@@ -295,6 +294,20 @@ app.post('/updateproducts', async (req, res) => {
 
         res.send({ status: "error", message: error });
 
+    };
+
+});
+
+app.post('/deleteProduct',async (req,res)=>{
+
+    try {
+
+        let data = await products.deleteProduct(req);
+
+        res.send({status:'sucess',message:data});
+        
+    } catch (error) {
+        res.send({status:"error", message:error});
     };
 
 });

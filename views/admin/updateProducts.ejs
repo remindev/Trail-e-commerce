@@ -7,19 +7,22 @@
 
             <div class="list-pd mt-2">
                 <label for="name">Product title <span></span> </label>
-                <input type="text" autocomplete="off" id="title_input" name="name" placeholder="product title" value="<%= product.title %> ">
+                <input type="text" autocomplete="off" id="title_input" name="name" placeholder="product title"
+                    value="<%= product.title %> ">
             </div>
 
             <div class="list-pd-2">
 
                 <div class="list-pd">
                     <label for="name">Price <span></span> </label>
-                    <input type="text" autocomplete="off" id="price_input" name="name" placeholder="₹" value="<%= product.price %> ">
+                    <input type="text" autocomplete="off" id="price_input" name="name" placeholder="₹"
+                        value="<%= product.price %> ">
                 </div>
 
                 <div class="list-pd">
                     <label for="name">Stock <span></span> </label>
-                    <input type="text" autocomplete="off" id="stock_input" name="name" placeholder="How much ?" value="<%= product.stock %> ">
+                    <input type="text" autocomplete="off" id="stock_input" name="name" placeholder="How much ?"
+                        value="<%= product.stock %> ">
                 </div>
 
             </div>
@@ -28,12 +31,14 @@
 
                 <div class="list-pd">
                     <label for="name">Category <span></span> </label>
-                    <input type="text" autocomplete="off" id="category_input" name="name" placeholder="Ex. electonics" value="<%= product.cateagory%> ">
+                    <input type="text" autocomplete="off" id="category_input" name="name" placeholder="Ex. electonics"
+                        value="<%= product.category%> ">
                 </div>
 
                 <div class="list-pd">
                     <label for="name">Offer <span></span> </label>
-                    <input type="text" autocomplete="off" id="offer_input" name="name" placeholder="In %" value="<%= product.offer %> ">
+                    <input type="text" autocomplete="off" id="offer_input" name="name" placeholder="In %"
+                        value="<%= product.offer %> ">
                 </div>
 
             </div>
@@ -74,307 +79,362 @@
 
 </div>
 
-<% var PID = PID %> 
+<% var PID=PID %>
 
-<script>
+    <script>
 
-    // let formdata = new FormData();
+        // let formdata = new FormData();
 
-    let image_selector = document.getElementById("image_selector");
+        let image_selector = document.getElementById("image_selector");
 
-    let fileInput = document.getElementById("file_selector");
+        let fileInput = document.getElementById("file_selector");
 
-    let image_tag = document.getElementById("image_display_image");
+        let image_tag = document.getElementById("image_display_image");
 
-    let img_FILE = [];
+        let img_FILE = [];
 
-    image_selector.onclick = (e) => {
+        image_selector.onclick = (e) => {
 
-        fileInput.click();
+            fileInput.click();
 
-    };
-
-    fileInput.onchange = (e) => {
-
-        let files = e.target.files;
-
-        img_FILE = files;
-
-        image_tag.src = URL.createObjectURL(files[0]);
-
-    };
-
-    async function validatior() {
-
-        let title_input = document.getElementById("title_input");
-
-        let price_input = document.getElementById("price_input");
-
-        let stock_input = document.getElementById("stock_input");
-
-        let category_input = document.getElementById("category_input");
-
-        let offer_input = document.getElementById("offer_input");
-
-        let desc_input = document.getElementById("desc_input");
-
-
-        let err1 = title_input.parentElement.querySelector('span');
-
-        let err2 = price_input.parentElement.querySelector('span');
-
-        let err3 = stock_input.parentElement.querySelector('span');
-
-        let err4 = category_input.parentElement.querySelector('span');
-
-        let err5 = offer_input.parentElement.querySelector('span');
-
-        let err6 = desc_input.parentElement.querySelector('span');
-
-        let uploading_status = document.getElementById("uploading_status");
-
-        uploading_status.style.color = 'black';
-
-
-        err1.innerText = '';
-
-        err2.innerText = '';
-
-        err3.innerText = '';
-
-        err4.innerText = '';
-
-        err5.innerText = '';
-
-        err6.innerText = '';
-
-
-        let good = true;
-
-        let output = {
-            title: '',
-            price: Number,
-            description: "",
-            offer: "",
-            stock: Number,
-            category: "",
-            files: File
         };
 
-        if (title_input.value.trim().length <= 10) {
+        fileInput.onchange = (e) => {
 
-            if (title_input.value.trim().length == 0) {
+            let files = e.target.files;
 
-                err1.innerText = ('Title field cannot be empty');
+            img_FILE = files;
 
-                good = false;
+            image_tag.src = URL.createObjectURL(files[0]);
 
-            } else {
+        };
 
-                err1.innerText = ('Tille must contain 10 characters');
+        function reset() {
 
-                good = false;
+            let title_input = document.getElementById("title_input");
 
+            let price_input = document.getElementById("price_input");
+
+            let stock_input = document.getElementById("stock_input");
+
+            let category_input = document.getElementById("category_input");
+
+            let offer_input = document.getElementById("offer_input");
+
+            let desc_input = document.getElementById("desc_input");
+
+
+            let err1 = title_input.parentElement.querySelector('span');
+
+            let err2 = price_input.parentElement.querySelector('span');
+
+            let err3 = stock_input.parentElement.querySelector('span');
+
+            let err4 = category_input.parentElement.querySelector('span');
+
+            let err5 = offer_input.parentElement.querySelector('span');
+
+            let err6 = desc_input.parentElement.querySelector('span');
+
+
+            title_input.value = '';
+
+            price_input.value = '';
+
+            stock_input.value = '';
+
+            category_input.value = '';
+
+            offer_input.value = '';
+
+            desc_input.value = '';
+
+
+            err1.innerText = '';
+
+            err2.innerText = '';
+
+            err3.innerText = '';
+
+            err4.innerText = '';
+
+            err5.innerText = '';
+
+            err6.innerText = '';
+
+        };
+
+        async function validatior() {
+
+            let title_input = document.getElementById("title_input");
+
+            let price_input = document.getElementById("price_input");
+
+            let stock_input = document.getElementById("stock_input");
+
+            let category_input = document.getElementById("category_input");
+
+            let offer_input = document.getElementById("offer_input");
+
+            let desc_input = document.getElementById("desc_input");
+
+
+            let err1 = title_input.parentElement.querySelector('span');
+
+            let err2 = price_input.parentElement.querySelector('span');
+
+            let err3 = stock_input.parentElement.querySelector('span');
+
+            let err4 = category_input.parentElement.querySelector('span');
+
+            let err5 = offer_input.parentElement.querySelector('span');
+
+            let err6 = desc_input.parentElement.querySelector('span');
+
+            let uploading_status = document.getElementById("uploading_status");
+
+            uploading_status.style.color = 'black';
+
+
+            err1.innerText = '';
+
+            err2.innerText = '';
+
+            err3.innerText = '';
+
+            err4.innerText = '';
+
+            err5.innerText = '';
+
+            err6.innerText = '';
+
+
+            let good = true;
+
+            let output = {
+                title: '',
+                price: Number,
+                description: "",
+                offer: "",
+                stock: Number,
+                category: "",
+                files: File
             };
 
-        };
+            if (title_input.value.trim().length <= 10) {
 
+                if (title_input.value.trim().length == 0) {
 
-        if (price_input.value.trim().length > 0) {
+                    err1.innerText = ('Title field cannot be empty');
 
-            let num = Number(price_input.value.trim());
+                    good = false;
 
-            if (isNaN(num)) {
+                } else {
 
-                err2.innerText = 'Price must be a number';
+                    err1.innerText = ('Tille must contain 10 characters');
 
-                good = false;
-
-            };
-
-        } else {
-
-            err2.textContent = 'Price field cannot be empty';
-
-            good = false;
-
-        };
-
-        if (stock_input.value.trim().length > 0) {
-
-            let num = Number(stock_input.value.trim());
-
-            if (isNaN(num)) {
-
-                err3.innerText = 'Stock must be a number';
-
-                good = false;
-
-            };
-
-        } else {
-
-            err3.textContent = 'Stock field cannot be empty';
-
-            good = false;
-
-        };
-
-        if (category_input.value.trim().length > 0) {
-
-            // good
-
-        } else {
-
-            err4.textContent = 'Catogery field cannot be empty';
-
-            good = false;
-
-        };
-
-        if (offer_input.value.trim().length != 0) {
-
-            let num = Number(offer_input.value.trim());
-
-            if (isNaN(num)) {
-
-                err5.innerText = 'Offer must number';
-
-                good = false;
-
-            };
-
-        };
-
-        if (desc_input.value.trim().length != 0) {
-
-            if (desc_input.value.trim().length < 20) {
-
-                err6.innerText = 'Description must contain at least 20 characters';
-
-                good = false;
-
-            };
-
-        } else {
-
-            err6.textContent = 'Description cannot be empty';
-
-            good = false;
-
-        };
-
-        if (good) {
-
-            if (img_FILE.length != 0) {
-
-                
-            } else {
-                
-                image_selector.style.border = '2px solid red';
-                
-            };
-
-            fileUploadFinal({
-                title: title_input.value.trim(),
-                price: price_input.value.trim(),
-                offer: offer_input.value.trim(),
-                stock: stock_input.value.trim(),
-                category: category_input.value.trim(),
-                description: desc_input.value.trim(),
-                files: img_FILE[0]
-            });
-
-        };
-
-    };
-
-    let xmlRq = new XMLHttpRequest();
-
-    async function fileUploadFinal({ title, price, description, offer, stock, category, files }) {
-
-        let data = new FormData();
-
-        let details = {
-            name: title,
-            price: price,
-            description: description,
-            offer: offer,
-            stock: stock,
-            category: category,
-        };
-
-        data.append('files', files);
-
-        data.append('category', JSON.stringify(details));
-
-        try {
-
-            // let resp = await fetch('/admin/addproducts', {
-            //     method: 'POST',
-            //     body: data
-            // });
-
-            // let res = await resp.json();
-
-            // console.log(res);
-
-            xmlRq.abort();
-
-            xmlRq.open('POST', `/admin/updateproducts?pid=<%=PID%>`);
-
-            xmlRq.upload.addEventListener('progress', ({ loaded, total }) => {
-
-                let status = Math.floor((loaded / total) * 100);
-
-                let uploading_status = document.getElementById("uploading_status");
-
-                uploading_status.innerText = `Uploading ${status}%`;
-
-                if (status == 100) {
-
-                    uploading_status.innerText = `Processing...`;
+                    good = false;
 
                 };
 
-            });
+            };
 
-            xmlRq.onreadystatechange = (e) => {
 
-                if (xmlRq.readyState === 4) {
+            if (price_input.value.trim().length > 0) {
+
+                let num = Number(price_input.value.trim());
+
+                if (isNaN(num)) {
+
+                    err2.innerText = 'Price must be a number';
+
+                    good = false;
+
+                };
+
+            } else {
+
+                err2.textContent = 'Price field cannot be empty';
+
+                good = false;
+
+            };
+
+            if (stock_input.value.trim().length > 0) {
+
+                let num = Number(stock_input.value.trim());
+
+                if (isNaN(num)) {
+
+                    err3.innerText = 'Stock must be a number';
+
+                    good = false;
+
+                };
+
+            } else {
+
+                err3.textContent = 'Stock field cannot be empty';
+
+                good = false;
+
+            };
+
+            if (category_input.value.trim().length > 0) {
+
+                // good
+
+            } else {
+
+                err4.textContent = 'Catogery field cannot be empty';
+
+                good = false;
+
+            };
+
+            if (offer_input.value.trim().length != 0) {
+
+                let num = Number(offer_input.value.trim());
+
+                if (isNaN(num)) {
+
+                    err5.innerText = 'Offer must number';
+
+                    good = false;
+
+                };
+
+            };
+
+            if (desc_input.value.trim().length != 0) {
+
+                if (desc_input.value.trim().length < 20) {
+
+                    err6.innerText = 'Description must contain at least 20 characters';
+
+                    good = false;
+
+                };
+
+            } else {
+
+                err6.textContent = 'Description cannot be empty';
+
+                good = false;
+
+            };
+
+            if (good) {
+
+                if (img_FILE.length != 0) {
+
+
+                } else {
+
+                    image_selector.style.border = '2px solid red';
+
+                };
+
+                fileUploadFinal({
+                    title: title_input.value.trim(),
+                    price: price_input.value.trim(),
+                    offer: offer_input.value.trim(),
+                    stock: stock_input.value.trim(),
+                    category: category_input.value.trim(),
+                    description: desc_input.value.trim(),
+                    files: img_FILE[0]
+                });
+
+            };
+
+        };
+
+        let xmlRq = new XMLHttpRequest();
+
+        async function fileUploadFinal({ title, price, description, offer, stock, category, files }) {
+
+            let data = new FormData();
+
+            let details = {
+                name: title,
+                price: price,
+                description: description,
+                offer: offer,
+                stock: stock,
+                category: category,
+            };
+
+            data.append('files', files);
+
+            data.append('category', JSON.stringify(details));
+
+            try {
+
+                // let resp = await fetch('/admin/addproducts', {
+                //     method: 'POST',
+                //     body: data
+                // });
+
+                // let res = await resp.json();
+
+                // console.log(res);
+
+                xmlRq.abort();
+
+                xmlRq.open('POST', `/admin/updateproducts?pid=<%=PID%>`);
+
+                xmlRq.upload.addEventListener('progress', ({ loaded, total }) => {
+
+                    let status = Math.floor((loaded / total) * 100);
 
                     let uploading_status = document.getElementById("uploading_status");
 
-                    let res = JSON.parse(xmlRq.response);
+                    uploading_status.innerText = `Uploading ${status}%`;
 
-                    if(res.status == 'error'){
-                        uploading_status.style.color = `red`;
-                        uploading_status.innerText = res.message;
-                    }else{
-                        uploading_status.style.color = `black`;
-                        uploading_status.innerText = res.message;
-                    }
+                    if (status == 100) {
+
+                        uploading_status.innerText = `Processing...`;
+
+                    };
+
+                });
+
+                xmlRq.onreadystatechange = (e) => {
+
+                    if (xmlRq.readyState === 4) {
+
+                        let uploading_status = document.getElementById("uploading_status");
+
+                        let res = JSON.parse(xmlRq.response);
+
+                        if (res.status == 'error') {
+                            uploading_status.style.color = `red`;
+                            uploading_status.innerText = res.message;
+                        } else {
+                            uploading_status.style.color = `black`;
+                            uploading_status.innerText = res.message;
+                        }
+
+                    };
 
                 };
 
-            };
 
+                xmlRq.upload.addEventListener('error', (error) => {
 
-            xmlRq.upload.addEventListener('error', (error) => {
+                    console.error(error);
+
+                });
+
+                xmlRq.send(data);
+
+            } catch (error) {
 
                 console.error(error);
 
-            });
-
-            xmlRq.send(data);
-
-        } catch (error) {
-
-            console.error(error);
+            };
 
         };
 
-    };
 
-
-</script>
+    </script>

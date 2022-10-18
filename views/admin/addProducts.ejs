@@ -102,6 +102,68 @@
 
     };
 
+    function reset() {
+
+        let imagae_prview = document.getElementById("image_display_image");
+
+        imagae_prview.src = '/res/product-thump.jpg';
+        
+        img_FILE = [];
+
+
+        let title_input = document.getElementById("title_input");
+
+        let price_input = document.getElementById("price_input");
+
+        let stock_input = document.getElementById("stock_input");
+
+        let category_input = document.getElementById("category_input");
+
+        let offer_input = document.getElementById("offer_input");
+
+        let desc_input = document.getElementById("desc_input");
+
+
+        let err1 = title_input.parentElement.querySelector('span');
+
+        let err2 = price_input.parentElement.querySelector('span');
+
+        let err3 = stock_input.parentElement.querySelector('span');
+
+        let err4 = category_input.parentElement.querySelector('span');
+
+        let err5 = offer_input.parentElement.querySelector('span');
+
+        let err6 = desc_input.parentElement.querySelector('span');
+
+
+        title_input.value = '';
+
+        price_input.value = '';
+
+        stock_input.value = '';
+
+        category_input.value = '';
+
+        offer_input.value = '';
+
+        desc_input.value = '';
+
+
+        err1.innerText = '';
+
+        err2.innerText = '';
+
+        err3.innerText = '';
+
+        err4.innerText = '';
+
+        err5.innerText = '';
+
+        err6.innerText = '';
+
+    };
+
     async function validatior() {
 
         let title_input = document.getElementById("title_input");
@@ -344,13 +406,14 @@
 
                     let res = JSON.parse(xmlRq.response);
 
-                    if(res.status == 'error'){
+                    if (res.status == 'error') {
                         uploading_status.style.color = `red`;
                         uploading_status.innerText = res.message;
-                    }else{
+                    } else {
                         uploading_status.style.color = `black`;
                         uploading_status.innerText = res.message;
-                    }
+                        reset();
+                    };
 
                 };
 

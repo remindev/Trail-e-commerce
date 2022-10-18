@@ -76,7 +76,7 @@ const product = new mongoose.Schema({
         default:new Date
     },
     lastSell:Date,
-    cateagory: String,
+    category: String,
     stock: {
         type:Number,
         default:0
