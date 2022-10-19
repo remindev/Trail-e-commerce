@@ -286,7 +286,7 @@
         if (refA.innerText == confirmInput.value) {
 
             let res = await fetch('/admin/deleteUser', {
-                method: "POST",
+                method: "DELETE",
                 headers: {
                     'Content-Type': 'application/json'
                 },
@@ -848,7 +848,7 @@
                     headers: {
                         'Content-Type': 'application/json'
                     },
-                    method: "POST",
+                    method: "PUT",
                     body: JSON.stringify({
 
                         UID: UID.length == 25 ? UID : null,

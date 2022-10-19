@@ -381,7 +381,7 @@
 
                 xmlRq.abort();
 
-                xmlRq.open('POST', `/admin/updateproducts?pid=<%=PID%>`);
+                xmlRq.open('PUT', `/admin/updateproducts?pid=<%=PID%>`);
 
                 xmlRq.upload.addEventListener('progress', ({ loaded, total }) => {
 

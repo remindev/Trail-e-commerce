@@ -68,7 +68,7 @@ app.use(Express.static(`${__dirname}/public`)); // serving static files
 app.use(auth.initializeAuth);
 
 
-// app.use((req,res,next)=>{console.log(req.isLoggedIn? `> ${req.user.email}`: "> User is not logged in "); next()});
+app.use((req,res,next)=>{console.log(req.isLoggedIn? `=> ${req.user.email}`: '=> user not logged in '); next()});
 
 
 app.use(function (req, res, next) {

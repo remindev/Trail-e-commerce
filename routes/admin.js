@@ -208,7 +208,7 @@ app.get('/', async (req, res) => {
 
 });
 
-app.post('/updateUser', async (req, res) => {
+app.put('/updateUser', async (req, res) => {
 
     try {
 
@@ -244,7 +244,7 @@ app.post('/addUser', async (req, res) => {
 
 });
 
-app.post('/deleteUser', async (req, res) => {
+app.delete('/deleteUser', async (req, res) => {
 
     try {
 
@@ -279,7 +279,7 @@ app.post('/addproducts', async (req, res) => {
 });
 
 
-app.post('/updateproducts', async (req, res) => {
+app.put('/updateproducts', async (req, res) => {
 
     try {
 
@@ -298,7 +298,7 @@ app.post('/updateproducts', async (req, res) => {
 
 });
 
-app.post('/deleteProduct',async (req,res)=>{
+app.delete('/deleteProduct',async (req,res)=>{
 
     try {
 
