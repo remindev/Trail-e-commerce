@@ -31,49 +31,28 @@ const __dirname = process.cwd(); // initializing current working directory
  */
 export function validatior(data, requiredIn, typeOfValidation) {
 
-
     let title = data.title ? data.title.trim() : [];
-
     let price = data.price ? data.price : [];
-
     let description = data.description ? data.description.trim() : [];
-
     let offer = data.offer ? data.offer : [];
-
     let stock = data.stock ? data.stock : [];
-
     let category = data.category ? data.category : [];
-
     let files = data.files ? data.files : [];
-
     let PID = data.PID ? data.PID : [];
-
     let IID = data.IID ? data.IID : [];
 
-
     let titleRequired = requiredIn.title ? true : false;
-
     let priceRequired = requiredIn.price ? true : false;
-
     let descriptionRequired = requiredIn.description ? true : false;
-
     let offerRequired = requiredIn.offer ? true : false;
-
     let stockRequired = requiredIn.stock ? true : false;
-
     let categoryRequired = requiredIn.category ? true : false;
-
     let filesRequired = requiredIn.files ? true : false;
-
     let PIDRequired = requiredIn.PID ? true : false;
-
     let IIDRequired = requiredIn.IID ? true : false;
 
-
     let PID_LENGTH = 20;
-
     let IID_LENGTH = 20;
-
 
     let output = {
         title: null,
@@ -86,236 +65,135 @@ export function validatior(data, requiredIn, typeOfValidation) {
         PID: null
     };
 
-
     return new Promise(async (resolve, reject) => {
-
         // title validation
         if (title.length != 0 || titleRequired) {
-
             if (title.length == 0) {
-
                 reject("Title required"); return 0;
-
             } else if (title.length < 10) {
-
                 reject("Title must be 10 characters"); return 0;
-
             } else {
-
                 output.title = title;
-
             };
-
         };
 
         // price validation
         if (price.length != 0 || priceRequired) {
-
             if (price.length == 0) {
-
                 reject("Price required"); return 0;
-
             } else if (price < 0) {
-
                 reject("Price is not valid"); return 0;
-
             } else {
-
                 output.price = price;
-
             };
-
         };
 
         // description validation
         if (description.length != 0 || descriptionRequired) {
-
             if (description.length == 0) {
-
                 reject("Description required"); return 0;
-
             } else if (description.length < 20) {
-
                 reject("Description must contain atleast 20 characters"); return 0;
-
             } else {
-
                 output.description = description;
-
             };
-
         };
 
         // offer validation
         if (offer.length != 0 || offerRequired) {
-
             if (offer.length == 0) {
-
                 reject("Offer required"); return 0;
-
             } else if (offer < 0) {
-
                 reject("Enter a valid offer"); return 0;
-
             } else {
-
                 output.offer = offer;
-
             };
-
         };
 
         // stock validation
         if (stock.length != 0 || stockRequired) {
-
             if (stock.length == 0) {
-
                 reject("Stock required"); return 0;
-
             } else if (stock < 0) {
-
                 reject("Enter a valid Stock"); return 0;
-
             } else {
-
                 output.stock = stock;
-
             };
-
         };
 
         // catorgary validation
         if (category.length != 0 || categoryRequired) {
-
             if (category.length == 0) {
-
                 reject("Category required"); return 0;
-
             } else if (category.length < 2) {
-
                 reject("Enter a valid Category"); return 0;
-
             } else {
-
                 output.category = category;
-
             };
-
         };
 
         // files validation 
         if (Object.keys(files).length != 0 || filesRequired) {
-
             if (Object.keys(files).length == 0) {
-
                 reject("File Required"); return 0;
-
             } else {
-
                 output.files = files;
-
             };
-
         };
 
         // PID Creation
         if (PID.length != 0 || PIDRequired) {
-
             if (typeOfValidation == 'addproduct') {
-
                 do {
-
                     PID = randomId(PID_LENGTH);
-
                 } while ((await DB.products.find({ PID: PID })).length != 0);
-
                 output.PID = PID;
-
             } else if(typeOfValidation = 'updateproduct'){
-
                 let PID_FORM_DB = await DB.products.find({PID:PID});
-
                 if(PID_FORM_DB.length==0){
-
                     reject("Invalid PID");
-
                 } else {
-
                     output.PID = PID;
-
                 };
-
             } else {
-
                 if (PID.length == 0) {
-
                     reject("PID Required"); return 0;
-
                 } else if (PID.length != PID_LENGTH) {
-
                     reject("Invalid PID"); return 0;
-
                 } else {
-
                     output.PID = PID;
-
                 };
-
             };
-
         };
 
         // UID Creation
         if (IID.length != 0 || IIDRequired) {
-
             if (typeOfValidation == 'addproduct') {
-
                 do {
-
                     IID = randomId(IID_LENGTH);
-
                 } while ((await DB.products.find({ IID: IID })).length != 0);
-
                 output.IID = IID;
-
             } else if(typeOfValidation = 'updateproduct'){
-
                 let IID_FORM_DB = await DB.products.find({IID:IID});
-
                 if(IID_FORM_DB.length==0){
-
                     reject("Invalid PID");
-
                 } else {
-
                     output.IID = IID;
-
                 };
-
             } else {
-
                 if (IID.length == 0) {
-
                     reject("PID Required"); return 0;
-
                 } else if (IID.length != IID_LENGTH) {
-
                     reject("Invalid PID"); return 0;
-
                 } else {
-
                     output.IID = IID;
-
                 };
-
             };
-
         };
 
         resolve(output);
 
     });
-
 };
 
 
@@ -496,39 +374,20 @@ export function updateProducts(request) {
  * @returns promise contains user data
  */
 export function deleteProduct(request){
-
   return new Promise(async (resolve,reject)=>{
-
     let PID = request.query.pid;
-
     try {
-
-        let output = await validatior(
-            {
-                PID:PID
-            },
-            {
-                PID:true
-            }
-        );
-
+        let output = await validatior({PID:PID},{PID:true});
         let product_DB = await DB.products.find({PID:PID});
-
         let deleted_DB = await DB.products.deleteOne({PID:PID});
-
         let path = `${__dirname}/public/productPictures/${product_DB[0].IID}.jpg`;
 
         let fs_Delete = fs.unlink(path,()=>{
-            
             resolve("Product sucessfully deleted");
-            
         });
 
-        
     } catch (error) {
       reject(error);  
     };
-
   });
-
 };
